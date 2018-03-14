@@ -184,8 +184,6 @@ function correction(feature, evt){
             "src='"+questionOfTopic.images[i].path+"' " +
             "alt='"+questionOfTopic.images[i].desc+"'>");
     }
-
-
 }
 
 function score(marginLat, marginLng, marginError) {
