@@ -1,0 +1,94 @@
+body {
+    background-color: #F5F5F5;
+}
+
+#about{
+    margin-top: 50px;
+}
+
+#about .content {
+    padding-top: 10%;
+    padding-bottom: 10%;
+    text-align: center;
+
+}
+
+#about .bg1 {
+    background: url("../img/bg_1.jpg");
+    background-size: cover;
+    height: 500px;
+}
+
+.navbar {
+    margin-bottom: inherit;
+}
+
+.carre {
+    float: left;
+    height: 10px;
+    width: 10px;
+    border: 1px solid darkblue;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+#container_quote {
+    height: 80px;
+    margin: 20px 40px;
+}
+
+#container_quote{
+    text-align: center;
+}
+
+#select_quote {
+    width: 50px;
+    margin: 0 auto;
+}
+
+.quote {
+    font-style: oblique;
+}
+
+.row {
+    margin-left: inherit;
+    margin-right: inherit;
+}
+
+#quote {
+    width: 100%;
+    height: 200px;
+    background-color: #fff;
+    padding-top: 30px;
+}
+
+.bg_square {
+    background-color: darkblue;
+}
+
+#footer {
+    background-color: #fff;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.bg-white {
+    background-color: #fff;
+}
+
+.container-top {
+    margin-top: 50px;
+}
+
+#topics {
+    margin: 10% 15px;
+}
+
+#map {
+    height: 500px;
+    width: 500px;
+    margin: 0 auto;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}

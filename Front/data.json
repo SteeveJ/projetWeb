@@ -1,0 +1,30 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-61.7900813, 16.3362937]
+      },
+      "properties": {
+        "popupContent": "This is a free bus line that will take you across downtown.",
+        "underConstruction": false
+      },
+      "id": 1
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-61.524760, 16.269761]
+      },
+      "properties": {
+        "popupContent": "This is a free bus line that will take you across downtown.",
+        "underConstruction": false
+      },
+      "id": 2
+    }
+  ]
+}
+

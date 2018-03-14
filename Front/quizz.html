@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Les 7 merveilles du Monde</title>
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link rel="stylesheet" href="./node_modules/leaflet/dist/leaflet.css">
+    <link rel="stylesheet" href="./css/main.css">
+    <script src="./node_modules/leaflet/dist/leaflet.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">7Merveilles</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="#about">A propos</a></li>
+                <li><a href="#factsheet">Fiche Pratique</a></li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#login" data-toggle="modal" data-target="#login">Se connecter</a></li>
+                <li> / </li>
+                <li><a href="#signup" data-toggle="modal" data-target="#signup">s'inscrire</a></li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+
+<div class="container bg-white container-top">
+    <div id="topics"></div>
+    <div id="questions">
+        <h2 id="topic"></h2>
+        <p>Score : <span class="score"></span></p>
+        <p id="question"></p>
+        <div id="map"></div>
+    </div>
+    <div id="response">
+        <h2 id="title_response"></h2>
+        <p>Score : <span class="score"></span></p>
+        <p id="content_response"></p>
+        <div id="images"></div>
+        <div id="buttons">
+            <button class='btn btn-primary' id='next'>Suivant</button>
+        </div>
+    </div>
+</div>
+<div id="footer">
+    &copy; copyright Jerent Steeve 2018
+</div>
+
+<script src="./node_modules/jquery/dist/jquery.min.js"></script>
+<script src="./js/bootstrap.min.js"></script>
+<script src="./js/functions.js"></script>
+<script src="./js/main_2.js"></script>
+</body>
+</html>
