@@ -20,11 +20,12 @@ function getUsers(){
 function getUser($id) {
     // TODO
     $conn=new PDO("mysql:host=localhost;dbname=projet_web","root","");
-    $requete=$conn->prepare('Select * from users where ID_USER=:id');
-    $requete->execute(array('id'=>$id));
-    foreach ($requete as $row){
-        print_r($row['ID_USER']."\t".$row["FIRSTNAME"]);
-    }
+    $requete=$conn->prepare('Select FIRSTNAME,LASTNAME,ROLE,CREATED_AT,UPDATED_AT from users where ID_USER=:id');
+    return($requete->execute(array('id'=>$id)));
+    //foreach ($requete as $row){
+    //    print_r($row['ID_USER']."\t".$row["FIRSTNAME"]);
+    //}
+
 
 
 }
