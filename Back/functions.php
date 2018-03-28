@@ -8,12 +8,17 @@ use db\Database;
 /**
  * @param string $firstName
  * @param string $lastName
+ * @param string $pseudo
  * @param string $password
  * @param string $role
  * @param integer $active
  * @return bool
  */
-function createUser($firstName, $lastName, $pseudo, $password,$role='user', $active=1) {
+function createUser($firstName, $lastName, $pseudo, $password, $role='user', $active=1) {
+    /* TODO: Décommenté apres avoir fini la fonction check_userData
+     * $check = check_userData($firstName, $lastName, $pseudo, $password, $role, $active);
+    if ($check['res'] === False)
+        return $check['errors'];*/
     $db = (new Database())->getDB();
     $stmt = $db->prepare("INSERT INTO USERS(FIRSTNAME, LASTNAME, PSEUDO, PASSWORD, ROLE, ACTIVE) VALUE (:FIRSTNAME, :LASTNAME, :PSEUDO, :PASSWORD, :ROLE, :ACTIVE)");
     try {
@@ -26,9 +31,9 @@ function createUser($firstName, $lastName, $pseudo, $password,$role='user', $act
             'ACTIVE'    => $active,
         ]);
         $stmt = null;
-        return true;
+        return True;
     } catch (PDOException $e){
-        return false;
+        return False;
     }
 }
 
@@ -39,14 +44,14 @@ function createUser($firstName, $lastName, $pseudo, $password,$role='user', $act
  */
 function getUser($id){
     $db = (new Database())->getDB();
-    $stmt = $db->prepare("SELECT id_user, firstname, lastname, role FROM USERS WHERE id_user=:ID");
+    $stmt = $db->prepare("SELECT id_user, firstname, lastname, pseudo, role FROM USERS WHERE id_user=:ID");
     try {
         $stmt->execute([
             'ID' => $id
         ]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     } catch (PDOException $e){
-        return false;
+        return False;
     }
 }
 
@@ -56,21 +61,22 @@ function getUser($id){
  */
 function getUsers() {
     $db = ( new Database() )->getDB();
-    $stmt = $db->query("SELECT id_user, firstname, lastname, role FROM USERS");
+    $stmt = $db->query("SELECT id_user, firstname, lastname, pseudo, role FROM USERS");
     try {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     } catch ( PDOException $e ){
-        return false;
+        return False;
     }
 }
 
 /**
  * Check all information about user before a create
- * @param $firstName
- * @param $lastName
- * @param $password
- * @param $role
- * @param $active
+ * @param string $firstName
+ * @param string $lastName
+ * @param string $pseudo
+ * @param string $password
+ * @param string $role
+ * @param integer $active
  * @return array
  */
 function check_userData($firstName, $lastName, $password, $pseudo, $role, $active){
@@ -95,20 +101,74 @@ function check_userData($firstName, $lastName, $password, $pseudo, $role, $activ
         if ( sizeof( $password ) < 8 || sizeof( $password ) > 16 ) {
             array_push($errors, "Your password contains less than 8 char or more than 16 char.");
         }
-        // TODO: contraintes des mot de passe à finir
+        // TODO: vérification des mot de passe
         // Au minimun 1 maj, 1 charactère spécial, un chiffre
         //if (preg_match("[A-Z]\s"))
     }
 
-    // TODO : contrainte user role
+    // TODO : Vérification pseudo
 
-    // TODO : Contrainte is active
+    // TODO : Vérification user role
 
-    return $errors;
+    // TODO : Vérification is active
+
+
+    if (sizeof($errors) === 0)
+        return [
+            'res'    => True,
+        ];
+    else
+        return [
+            'res'    => False,
+            'errors' => $errors
+        ];
 }
 
-function login($pseudo, $password) {
+function getUserID($pseudo, $password) {
+    $db = (new Database())->getDB();
+    $stmt = $db->prepare("SELECT id_user FROM USERS WHERE PSEUDO=:PSEUDO AND PASSWORD=:PASSWORD");
+    try {
+        $stmt->execute([
+            'PSEUDO'        => $pseudo,
+            'PASSWORD'      => hash('sha256', $password),
+        ]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    } catch (PDOException $e){
+        return False;
+    }
+}
 
+/**
+ * @param $pseudo
+ * @param $password
+ * @return array
+ */
+function login($pseudo, $password) {
+    $id = getUserID($pseudo, $password);
+    if($id === False)
+        return [
+            'res'       => False,
+            'message'   => 'Password or pseudo is not valid'
+        ];
+    $user = getUser($id['id_user']);
+    session_start();
+    $_SESSION['user'] = $user;
+    return [
+        'res'   => True
+    ];
+}
+
+/**
+ * @return bool
+ */
+function logout() {
+
+    if( isset( $_SESSION['user']) ) {
+        session_destroy();
+        return True;
+    } else {
+        return False;
+    }
 }
 
 function createTopic() {
