@@ -34,3 +34,23 @@ print_r(logout());
 session_start();
 print_r($_SESSION);
 echo '</pre>';
+
+echo '<p>test check_userData: </p>';
+echo '<pre>';
+print_r(check_userData('l','Steven@','wholetthedogsout','isdrissKewl','dsfs',32));
+echo '</pre>';
+
+echo '<p>test createTopic: </p>';
+echo '<pre>';
+//print_r(createTopic("isDrissKewl"));
+echo '</pre>';
+
+echo '<p>test get_topics: </p>';
+echo '<pre>';
+print_r(getTopics());
+echo '</pre>';
+
+echo '<p>test getTopic: </p>';
+echo '<pre>';
+print_r(getTopic(1));
+echo '</pre>';

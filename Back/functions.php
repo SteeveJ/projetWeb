@@ -12,15 +12,14 @@ use db\Database;
  * @param string $password
  * @param string $role
  * @param integer $active
- * @return bool
+ * @return bool|mixed
  */
 function createUser($firstName, $lastName, $pseudo, $password, $role='user', $active=1) {
-    /* TODO: Décommenté apres avoir fini la fonction check_userData
-     * $check = check_userData($firstName, $lastName, $pseudo, $password, $role, $active);
+    $check = check_userData($firstName, $lastName, $pseudo, $password, $role, $active);
     if ($check['res'] === False)
-        return $check['errors'];*/
+        return $check['errors'];
     $db = (new Database())->getDB();
-    $stmt = $db->prepare("INSERT INTO USERS(FIRSTNAME, LASTNAME, PSEUDO, PASSWORD, ROLE, ACTIVE) VALUE (:FIRSTNAME, :LASTNAME, :PSEUDO, :PASSWORD, :ROLE, :ACTIVE)");
+    $stmt = $db->prepare("INSERT INTO USERS(FIRSTNAME, LASTNAME, PSEUDO, PASSWORD, ROLE, ACTIVE) VALUES (:FIRSTNAME, :LASTNAME, :PSEUDO, :PASSWORD, :ROLE, :ACTIVE)");
     try {
         $stmt->execute([
             'FIRSTNAME' => $firstName,
@@ -62,8 +61,8 @@ function getUser($id){
  */
 function getUsers() {
     $db = ( new Database() )->getDB();
-    $stmt = $db->query("SELECT id_user, firstname, lastname, pseudo, role FROM USERS");
     try {
+        $stmt = $db->query("SELECT id_user, firstname, lastname, pseudo, role FROM USERS");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     } catch ( PDOException $e ){
         return False;
@@ -84,31 +83,31 @@ function check_userData($firstName, $lastName, $password, $pseudo, $role, $activ
     $errors = [];
 
     // Vérification sur le firstname
-    if ( empty( $fistName ) && !isset($firstame) ) {
+    if ( empty( $firstName ) || !isset($firstName) ) {
         array_push($errors, "First name is not defined");
-    } else if ( sizeof($firstName) <= 1 ) {
+    } else if ( strlen($firstName) <= 1 ) {
         array_push($errors, "First name with length 0 or 1 char is not valid");
     }
 
     // Vérification sur le lastname
     if ( empty( $lastName ) )
         array_push($errors, "Last name is not defined");
-    else if ( sizeof($lastName) <= 1 )
+    else if ( strlen($lastName) <= 1 )
         array_push($errors, "Last Name with length 0 or 1 char is not valid");
 
     if ( empty( $password ) ) {
         array_push($errors, "Password is not defined");
     } else {
-        if ( sizeof( $password ) < 8 || sizeof( $password ) > 16 ) {
+        if ( strlen( $password ) < 8 || strlen( $password ) > 16 ) {
             array_push($errors, "Your password contains less than 8 char or more than 16 char.");
         }
         // Vérification des mot de passe
         // Au minimun 1 maj, 1 charactère spécial, un chiffre
-        if (preg_match("/[A-Z]?/",$password) !== 1 )
+        if (preg_match("/[A-Z]/",$password) !== 1 )
             array_push($errors,"Your Password must contain at least 1 uppercase!");
-        if( preg_match('/[#$%^&*()+=@\-\[\]\';,.\/{}|":<>?~\\\\]?/', $password) !== 1 )
+        if( preg_match('/[#$%^&*()+=@\-\[\]\';,.\/{}|":<>?~\\\\]/', $password) !== 1 )
             array_push($errors,"Your password must contain at least 1 special character!");
-        if (preg_match("/[0-9]?/",$password) !== 1 )
+        if (preg_match("/[0-9]/",$password) !== 1 )
             array_push($errors,"Your password must contain at least 1 number!");
     }
     // Vérification pseudo
@@ -116,7 +115,7 @@ function check_userData($firstName, $lastName, $password, $pseudo, $role, $activ
         array_push($errors,"Pseudo is not defined!");
     else if( preg_match("/[\s]/",$pseudo) === 1 )
         array_push($errors,"Your pseudo cannot contain spaces!");
-    else if( sizeof($pseudo) <= 1 )
+    else if( strlen($pseudo) <= 1 )
         array_push($errors,"Pseudo with length 0 or 1 is not valid!");
 
     // Vérification user role
@@ -187,10 +186,54 @@ function logout() {
 
 }
 
-function createTopic() {
-    // TODO
+/**
+ * @param $topicName
+ * @return bool
+ */
+function createTopic($topicName) {
+    $db = (new Database())->getDB();
+    $stmt = $db->prepare("INSERT INTO TOPICS(Name) VALUES (:NAME)");
+    try {
+        $stmt->execute([
+            'NAME' => $topicName,
+        ]);
+        $stmt = null;
+        return True;
+    } catch (PDOException $e){
+        return False;
+    }
 }
 
+/**
+ * @return array|bool
+ */
 function getTopics() {
-    // TODO
+    $db = (new Database())->getDB();
+    try {
+        $stmt = $db->query("Select id_topic, name from TOPICS");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e){
+        return False;
+    }
+}
+
+function getTopic($id) {
+    $db = (new Database())->getDB();
+    try {
+        $stmt = $db->prepare("Select id_topic,name from TOPICS where id_topic=:ID");
+        $stmt->execute([
+            "ID"=>$id
+        ]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e){
+        return False;
+    }
+}
+function createQuestions()
+{
+
+}
+function getQuestions()
+{
+    //TODO : créer les questions avec coordonnées
 }
