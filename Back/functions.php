@@ -83,7 +83,7 @@ function check_userData($firstName, $lastName, $password, $pseudo, $role, $activ
     $errors = [];
 
     // Contrainte sur le firstname
-    if ( empty( $fistName ) ) {
+    if ( empty( $fistName ) && !isset($firstame) ) {
         array_push($errors, "First name is not defined");
     } else if ( sizeof($firstName) > 1 ) {
         array_push($errors, "First name with 0 or 1 char is not valid");
