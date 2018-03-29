@@ -2,12 +2,6 @@
 
 include_once __DIR__.'/connectDB.php';
 
-<<<<<<< HEAD
- function is_connected(){
-     return !(empty(isset($POST['connected'])) && TokenValidator(empty(isset($POST['user_id'])), empty(isset($POST['token']))));
- }
-=======
->>>>>>> 805f54cab3cc19c94dc03e32ca2a4b9371dd2d20
 
 use db\Database;
 
@@ -61,19 +55,7 @@ function getUser($id){
     }
 }
 
-<<<<<<< HEAD
-function getUser($id) {
-    // TODO
-    $conn=new PDO("mysql:host=localhost;dbname=projet_web","root","");
-    $requete=$conn->prepare('Select FIRSTNAME,LASTNAME,ROLE,CREATED_AT,UPDATED_AT from users where ID_USER=:id');
-    return($requete->execute(array('id'=>$id)));
-    //foreach ($requete as $row){
-    //    print_r($row['ID_USER']."\t".$row["FIRSTNAME"]);
-    //}
 
-
-
-=======
 /**
  * Get all users
  * @return array|bool
@@ -188,7 +170,7 @@ function logout() {
     } else {
         return False;
     }
->>>>>>> 805f54cab3cc19c94dc03e32ca2a4b9371dd2d20
+
 }
 
 function createTopic() {
