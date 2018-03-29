@@ -127,7 +127,7 @@ function check_userData($firstName, $lastName, $password, $pseudo, $role, $activ
 
 function getUserID($pseudo, $password) {
     $db = (new Database())->getDB();
-    $stmt = $db->prepare("SELECT id_user FROM USERS WHERE PSEUDO=:PSEUDO AND PASSWORD=:PASSWORD");
+    $stmt = $db->prepare("SELECT id_user FROM USERS WHERE PSEUDO=:PSEUDO AND PASSWORD=:PASSWORD WHERE ACTIVE=1");
     try {
         $stmt->execute([
             'PSEUDO'        => $pseudo,
