@@ -83,18 +83,18 @@ function getUsers() {
 function check_userData($firstName, $lastName, $password, $pseudo, $role, $active){
     $errors = [];
 
-    // Contrainte sur le firstname
+    // Vérification sur le firstname
     if ( empty( $fistName ) && !isset($firstame) ) {
         array_push($errors, "First name is not defined");
-    } else if ( sizeof($firstName) > 1 ) {
-        array_push($errors, "First name with 0 or 1 char is not valid");
+    } else if ( sizeof($firstName) <= 1 ) {
+        array_push($errors, "First name with length 0 or 1 char is not valid");
     }
 
-    // Contrainte sur le lastname
+    // Vérification sur le lastname
     if ( empty( $lastName ) )
         array_push($errors, "Last name is not defined");
     else if ( sizeof($lastName) <= 1 )
-        array_push($errors, "Last Name with 0 or 1 char is not valid");
+        array_push($errors, "Last Name with length 0 or 1 char is not valid");
 
     if ( empty( $password ) ) {
         array_push($errors, "Password is not defined");
@@ -102,17 +102,31 @@ function check_userData($firstName, $lastName, $password, $pseudo, $role, $activ
         if ( sizeof( $password ) < 8 || sizeof( $password ) > 16 ) {
             array_push($errors, "Your password contains less than 8 char or more than 16 char.");
         }
-        // TODO: vérification des mot de passe
+        // Vérification des mot de passe
         // Au minimun 1 maj, 1 charactère spécial, un chiffre
-        //if (preg_match("[A-Z]\s"))
+        if (preg_match("/[A-Z]?/",$password) !== 1 )
+            array_push($errors,"Your Password must contain at least 1 uppercase!");
+        if( preg_match('/[#$%^&*()+=@\-\[\]\';,.\/{}|":<>?~\\\\]?/', $password) !== 1 )
+            array_push($errors,"Your password must contain at least 1 special character!");
+        if (preg_match("/[0-9]?/",$password) !== 1 )
+            array_push($errors,"Your password must contain at least 1 number!");
     }
+    // Vérification pseudo
+    if( empty($pseudo) || !isset($pseudo) )
+        array_push($errors,"Pseudo is not defined!");
+    else if( preg_match("/[\s]/",$pseudo) === 1 )
+        array_push($errors,"Your pseudo cannot contain spaces!");
+    else if( sizeof($pseudo) <= 1 )
+        array_push($errors,"Pseudo with length 0 or 1 is not valid!");
 
-    // TODO : Vérification pseudo
+    // Vérification user role
+    if( strcasecmp($role ,"user" ) !== 0 )
+        if ( strcasecmp($role ,"admin" ) !== 0 )
+            array_push($errors,"Role is neither user nor admin");
 
-    // TODO : Vérification user role
-
-    // TODO : Vérification is active
-
+    // Vérification is active
+    if( !in_array($active, [0,1] ) )
+        array_push($errors,"Active is neither 0 nor 1");
 
     if (sizeof($errors) === 0)
         return [

@@ -7,8 +7,8 @@
  */
 
 $GLOBALS = array(
-    'host'   =>'127.0.0.1',
-    'port'   => 8889,
+    'host'   =>'localhost',
+    'port'   => 3302,
     'dbName' => 'projet_web',
     'user'   => 'root',
     'pass'   => 'root'
