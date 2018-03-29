@@ -42,7 +42,7 @@ echo '</pre>';
 
 echo '<p>test createTopic: </p>';
 echo '<pre>';
-//print_r(createTopic("isDrissKewl"));
+//print_r(createTopic("isSteeveKewl"));
 echo '</pre>';
 
 echo '<p>test get_topics: </p>';
@@ -54,3 +54,4 @@ echo '<p>test getTopic: </p>';
 echo '<pre>';
 print_r(getTopic(1));
 echo '</pre>';
+

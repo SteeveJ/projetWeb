@@ -140,7 +140,7 @@ function check_userData($firstName, $lastName, $password, $pseudo, $role, $activ
 
 function getUserID($pseudo, $password) {
     $db = (new Database())->getDB();
-    $stmt = $db->prepare("SELECT id_user FROM USERS WHERE PSEUDO=:PSEUDO AND PASSWORD=:PASSWORD WHERE ACTIVE=1");
+    $stmt = $db->prepare("SELECT id_user FROM USERS WHERE PSEUDO=:PSEUDO AND PASSWORD=:PASSWORD AND USERS.ACTIVE=1");
     try {
         $stmt->execute([
             'PSEUDO'        => $pseudo,
@@ -176,7 +176,6 @@ function login($pseudo, $password) {
  * @return bool
  */
 function logout() {
-
     if( isset( $_SESSION['user']) ) {
         session_destroy();
         return True;
@@ -229,11 +228,103 @@ function getTopic($id) {
         return False;
     }
 }
-function createQuestions()
-{
+
+/* TODO:  Tester les fonctions suivante regarder le fichier Front/questions.json et Front/js/functions.js (loadingMap() et correction()) pour comprendre la logique */
+
+function createCoordinate($lat, $long) {
+    $db = (new Database())->getDB();
+    $stmt = $db->prepare("INSERT COORDINATES(latitude, longitude) VALUES (:LATITUDE, :LONGITUDE)");
+    try {
+        $stmt->execute([
+            'LATITUDE' => $lat,
+            'LONGITUDE' => $long
+        ]);
+        return $db->lastInsertId();
+    } catch (PDOException $e){
+        return False;
+    }
+}
+
+function createResponse($marginError, $latitude, $longitude) {
+    $db = (new Database())->getDB();
+    $stmt = $db->prepare("INSERT RESPONSES(coordinate_id, marginError) VALUES (:ID, :MARGE)");
+    $IDCoordinate = createCoordinate($latitude, $longitude);
+    if($IDCoordinate === False) {
+        return [
+            'res'   => False,
+            'message'      => 'Fail : createCoordinate',
+        ];
+    }
+    try {
+        $stmt->execute([
+            'ID' => $IDCoordinate,
+            'MARGIN' => $marginError
+        ]);
+        return $db->lastInsertId();
+    } catch (PDOException $e){
+        return False;
+    }
+}
+
+function createMap($max, $min, $latitude, $longitude) {
+    $db = (new Database())->getDB();
+    $stmt = $db->prepare("INSERT MAPS(coordinate_id, zoommax, zoommin) VALUES (:ID, :MAX, :MIN)");
+    $IDCoordinate = createCoordinate($latitude, $longitude);
+    if($IDCoordinate === False) {
+        return [
+            'res'       => False,
+            'message'   => 'Fail : createCoordinate',
+        ];
+    }
+    try {
+        $stmt->execute([
+            'ID' => $IDCoordinate,
+            'MAX' => $max,
+            'MIN'   => $min
+        ]);
+        return $db->lastInsertId();
+    } catch (PDOException $e){
+        return False;
+    }
+}
+
+function createQuestion($IDTopic, $title, $longitudeMap,
+                         $latitudeMap, $zoomMax, $zoomMin, $longitudeResponse, $latitudeResponse, $marginError) {
+    $db = (new Database())->getDB();
+    $stmt = $db->prepare("INSERT QUESTIONS(title, topic_id, response_id, map_id) VALUES (:TITLE, :TOPIC, :RESPONSE, :MAP)");
+    $IDMap = createMap($zoomMax, $zoomMin, $latitudeMap, $longitudeMap);
+    if($IDMap === False) {
+        return [
+            'res'       => False,
+            'message'   => 'Fail : createMap',
+        ];
+    }
+    $IDResponse = createResponse($marginError, $latitudeResponse, $longitudeResponse);
+    if($IDResponse === False) {
+        return [
+            'res'       => False,
+            'message'   => 'Fail : createResponse',
+        ];
+    }
+    try {
+        $stmt->execute([
+            'TITLE'     => $title,
+            'TOPIC'     => $IDTopic,
+            'RESPONSE'  => $IDResponse,
+            'MAP'       => $IDMap,
+        ]);
+        return $db->lastInsertId();
+    } catch (PDOException $e){
+        return False;
+    }
+}
+
+// TODO : Crée la fonction qui ajoute des cordonnée pour concevoir le polygone sur la map
+function createFeature(){
 
 }
+
 function getQuestions()
 {
-    //TODO : créer les questions avec coordonnées
+    //TODO : afficher les questions avec coordonnées
 }
