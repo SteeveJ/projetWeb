@@ -328,3 +328,13 @@ function getQuestions()
 {
     //TODO : afficher les questions avec coordonnées
 }
+
+
+function getTopics_json() {
+    $q = getTopics();
+
+    if($q === false)
+        echo "Une erreur est survenue dans la requête";
+    else
+        echo json_encode($q, JSON_PRETTY_PRINT);
+}
