@@ -267,6 +267,23 @@ function loadQuestion(){
 }
 
 /**
+ * Charger les Questions
+ * @returns {Promise}
+ */
+function loadTopics(){
+    return new Promise((resolve, reject) => {
+        $.post('index.php', {'page': 'api', 'q': 'topics'})
+        .done(function (data) {
+            questions = data;
+            resolve(data);
+        })
+        .fail(function () {
+            reject(Error('Impossible d\'ouvrir le fichier ' + url));
+        })
+});
+}
+
+/**
  * Permet de charger les scores du/des joueur(s)
  */
 function loadScore(){

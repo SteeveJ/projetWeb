@@ -164,9 +164,15 @@ function login($pseudo, $password) {
             'res'       => False,
             'message'   => 'Password or pseudo is not valid'
         ];
+    if (!empty( isset( $_COOKIE['connected'] ) ))
+        return [
+            'res'       => False,
+            'message'   => 'Une session est déjà active'
+        ];
     $user = getUser($id['id_user']);
     session_start();
     $_SESSION['user'] = $user;
+    setcookie('connected', 'True', time() + (60 * 15));
     return [
         'res'   => True
     ];
@@ -176,8 +182,10 @@ function login($pseudo, $password) {
  * @return bool
  */
 function logout() {
-    if( isset( $_SESSION['user']) ) {
+    if( isset( $_COOKIE['connected'] ) && $_COOKIE['connected'] === 'True' ) {
         session_destroy();
+        unset($_COOKIE['connected']);
+        setcookie('connected', '', time() - 3600, '/');
         return True;
     } else {
         return False;
@@ -337,4 +345,20 @@ function getTopics_json() {
         echo "Une erreur est survenue dans la requête";
     else
         echo json_encode($q, JSON_PRETTY_PRINT);
+}
+
+function is_connected() {
+    return (!empty( isset( $_SESSION['user'] ) ) && !empty( isset( $_COOKIE['connected'] ) ) && $_COOKIE['connected'] === 'True');
+}
+
+function redirect($url) {
+    ob_start(); // ensures anything dumped out will be caught
+
+    // clear out the output buffer
+    while (ob_get_status()) {
+        ob_end_clean();
+    }
+
+    // no redirect
+    header( "Location: $url" );
 }

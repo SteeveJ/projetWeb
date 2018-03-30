@@ -35,18 +35,19 @@ $(document).ready(function(){
     /**
      * Chargement des questions de manière asynchrone
      */
-    loadQuestion().then(function(q){
+    loadTopics().then(function(q){
         // On compte le nombre de propriété de l'objet
-        const numberElement = countProperties(q);
+        const numberElement = q.length;
+        console.log(numberElement);
         /**
          * On affiche les sujets des questions dans la div de #topics
          */
-        for(let i = 1; i < numberElement+1; i++) {
+        for(let i = 0; i < numberElement; i++) {
             topics.append(
                 "<button type='button' class='btn btn-primary btn-block' data-id='"+
-                i
+                q[i].id_topic
                 +"'>"+
-                q[i].topic
+                q[i].name
                 +"</button>"
             );
         }
