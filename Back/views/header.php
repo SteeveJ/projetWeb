@@ -46,7 +46,8 @@
                     <?php
                         if($page === 'home')
                             echo "<li><a href=\"#about\">A propos</a></li>
-                                    <li><a href=\"#factsheet\">Fiche Pratique</a></li>";
+                                    <li><a href=\"#team\">Équipe</a></li>
+                                    <li><a href=\"#contact\">Contact</a></li>";
                         else
                             echo "<li><a href=\"/\">Accueil</a></li>";
                         if ( is_connected() )

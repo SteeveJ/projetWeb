@@ -301,7 +301,6 @@ function initquote(){
         quote++;
         if(quote > maxQuote)
             quote = 1;
-        console.log(quote);
         $('#quote_'+quote).toggle();
         $('.square_'+quote).addClass('bg_square');
     }, 5000);
