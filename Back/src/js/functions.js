@@ -9,7 +9,6 @@ let map;
 // timer
 let timer;
 let seconde;
-const api_question = "./questions.json";
 
 // Q
 let qNumber;

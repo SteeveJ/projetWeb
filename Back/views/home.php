@@ -6,6 +6,10 @@ $styles = [
   './src/css/main.css',
 ];
 
+$h_scripts = [
+    './src/leaflet/dist/leaflet.js',
+];
+
 $f_scripts = [
     './src/js/functions.js',
     './src/js/main.js',
@@ -25,7 +29,7 @@ include_once __DIR__.'/header.php';
                     <p>Ces quiz de culture générale sont un excellent moyen d’apprendre en s’amusant ! Pour vous, nous avons cherché les meilleures questions pour vous aider à accroître vos connaissances.</p>
                     <br>
                     <br>
-                    <button class="btn btn-lg btn-primary" id="demo"> Démo </button>
+                    <button class="btn btn-lg btn-primary btn-demo" data-toggle="modal" data-target="#demo"> Démo </button>
                     <button class="btn btn-lg btn-danger">S'inscrire</button>
                     <br>
                     <br>
@@ -120,6 +124,23 @@ include_once __DIR__.'/header.php';
                     </form>
                 </div>
 
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="demo" tabindex="-1" role="dialog" aria-labelledby="demoLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="demoLabel">Demo</h4>
+                </div>
+                <div class="modal-body">
+                    <h2>Démonstration quizz</h2>
+                    <div class="box-demo">
+                        <div id="map-demo"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

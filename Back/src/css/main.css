@@ -125,3 +125,15 @@ body {
 .container.mg-top {
     margin-top: 100px;
 }
+
+.box-demo {
+    width: 100%;
+    height: 500px;
+    background-color: #9d9d9d;
+}
+
+#map-demo {
+    width: 100%;
+    height: 100%;
+    background-color: #2aabd2;
+}

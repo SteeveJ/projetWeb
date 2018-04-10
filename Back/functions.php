@@ -80,6 +80,7 @@ function getUsers() {
  * @return array
  */
 function check_userData($firstName, $lastName, $password, $pseudo, $role, $active){
+    // Tableau qui rassemble les erreurs
     $errors = [];
 
     // Vérification sur le firstname
@@ -95,14 +96,13 @@ function check_userData($firstName, $lastName, $password, $pseudo, $role, $activ
     else if ( strlen($lastName) <= 1 )
         array_push($errors, "Last Name with length 0 or 1 char is not valid");
 
+    // Vérification des mots de passes
     if ( empty( $password ) ) {
         array_push($errors, "Password is not defined");
     } else {
-        if ( strlen( $password ) < 8 || strlen( $password ) > 16 ) {
+        // compris entre 8 et 16 caractère, Au minimun 1 maj, 1 charactère spécial, un chiffre
+        if ( strlen( $password ) < 8 || strlen( $password ) > 16 )
             array_push($errors, "Your password contains less than 8 char or more than 16 char.");
-        }
-        // Vérification des mot de passe
-        // Au minimun 1 maj, 1 charactère spécial, un chiffre
         if (preg_match("/[A-Z]/",$password) !== 1 )
             array_push($errors,"Your Password must contain at least 1 uppercase!");
         if( preg_match('/[#$%^&*()+=@\-\[\]\';,.\/{}|":<>?~\\\\]/', $password) !== 1 )
@@ -138,6 +138,13 @@ function check_userData($firstName, $lastName, $password, $pseudo, $role, $activ
         ];
 }
 
+/**
+ * Permet de recupérer l'id d'un utilisateur en fonction 
+ * de son pseudo et mot de passse
+ * @param string $pseudo
+ * @param string $password
+ * @return array|bool
+ */
 function getUserID($pseudo, $password) {
     $db = (new Database())->getDB();
     $stmt = $db->prepare("SELECT id_user FROM USERS WHERE PSEUDO=:PSEUDO AND PASSWORD=:PASSWORD AND USERS.ACTIVE=1");
@@ -153,8 +160,9 @@ function getUserID($pseudo, $password) {
 }
 
 /**
- * @param $pseudo
- * @param $password
+ * Fonction de connexion des utilisateurs
+ * @param string $pseudo
+ * @param string $password
  * @return array
  */
 function login($pseudo, $password) {
@@ -179,6 +187,7 @@ function login($pseudo, $password) {
 }
 
 /**
+ * Permet de déconnecter un utilisateur dur le site
  * @return bool
  */
 function logout() {
@@ -194,7 +203,8 @@ function logout() {
 }
 
 /**
- * @param $topicName
+ * Permet de créer une topic
+ * @param string $topicName
  * @return bool
  */
 function createTopic($topicName) {
@@ -212,6 +222,7 @@ function createTopic($topicName) {
 }
 
 /**
+ * Permet d'afficher tous les topics existant
  * @return array|bool
  */
 function getTopics() {
@@ -224,6 +235,10 @@ function getTopics() {
     }
 }
 
+/**
+ * Permet d'afficher un topic spécifiques
+ * @param integer $id
+ */
 function getTopic($id) {
     $db = (new Database())->getDB();
     try {
@@ -337,7 +352,9 @@ function getQuestions()
     //TODO : afficher les questions avec coordonnées
 }
 
-
+/**
+ * Affiche les topics au format json
+ */
 function getTopics_json() {
     $q = getTopics();
 
@@ -347,10 +364,17 @@ function getTopics_json() {
         echo json_encode($q, JSON_PRETTY_PRINT);
 }
 
+/**
+ * Permet de déterminer si un utilisateur est connecté
+ */
 function is_connected() {
     return (!empty( isset( $_SESSION['user'] ) ) && !empty( isset( $_COOKIE['connected'] ) ) && $_COOKIE['connected'] === 'True');
 }
 
+/**
+ * Permet de rediriger vers une autre page
+ * @param string $url
+ */
 function redirect($url) {
     ob_start(); // ensures anything dumped out will be caught
 

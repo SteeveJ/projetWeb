@@ -8,6 +8,6 @@
     <title>404</title>
 </head>
 <body>
-    <p>404 : Page not found</p>
+    <h1>404 : Page not found</h1>
 </body>
 </html>
