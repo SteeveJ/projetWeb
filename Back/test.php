@@ -59,3 +59,16 @@ if((require_once 'functions.php')==TRUE)
     echo "required successfully";
 echo "<br>";
 getUser(1);
+
+//echo (createCoordinate(1.832936, -61.28365) == False) ? "Echec" : "Success";
+/*$res = createResponse(0.15, 12.832936, -66.28365);
+print_r($res);
+echo ($res == False) ? "Echec" : "Success";
+
+$map = createMap(15, 10, 12.832936, -66.28365);
+print_r($map);
+echo ($map == False) ? "Echec" : "Success";*/
+
+$q = createQuestion(1, "je ne sais pas ?", 16.000, 5.12563, 15, 10, 14.0283, -12.7635, 0.0123);
+print_r($q);
+echo ($q == False) ? "Echec" : "Success";

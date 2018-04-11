@@ -256,7 +256,7 @@ function getTopic($id) {
 
 function createCoordinate($lat, $long) {
     $db = (new Database())->getDB();
-    $stmt = $db->prepare("INSERT COORDINATES(latitude, longitude) VALUES (:LATITUDE, :LONGITUDE)");
+    $stmt = $db->prepare("INSERT INTO COORDINATES(latitude, longitude) VALUES (:LATITUDE, :LONGITUDE)");
     try {
         $stmt->execute([
             'LATITUDE' => $lat,
@@ -270,7 +270,7 @@ function createCoordinate($lat, $long) {
 
 function createResponse($marginError, $latitude, $longitude) {
     $db = (new Database())->getDB();
-    $stmt = $db->prepare("INSERT RESPONSES(coordinate_id, marginError) VALUES (:ID, :MARGE)");
+    $stmt = $db->prepare("INSERT INTO RESPONSES(coordinate_id, marginError) VALUES (:ID, :MARGE)");
     $IDCoordinate = createCoordinate($latitude, $longitude);
     if($IDCoordinate === False) {
         return [
@@ -281,7 +281,7 @@ function createResponse($marginError, $latitude, $longitude) {
     try {
         $stmt->execute([
             'ID' => $IDCoordinate,
-            'MARGIN' => $marginError
+            'MARGE' => $marginError
         ]);
         return $db->lastInsertId();
     } catch (PDOException $e){
@@ -291,7 +291,7 @@ function createResponse($marginError, $latitude, $longitude) {
 
 function createMap($max, $min, $latitude, $longitude) {
     $db = (new Database())->getDB();
-    $stmt = $db->prepare("INSERT MAPS(coordinate_id, zoommax, zoommin) VALUES (:ID, :MAX, :MIN)");
+    $stmt = $db->prepare("INSERT INTO MAPS(coordinate_id, zoommax, zoommin) VALUES (:ID, :MAX, :MIN)");
     $IDCoordinate = createCoordinate($latitude, $longitude);
     if($IDCoordinate === False) {
         return [
@@ -314,7 +314,7 @@ function createMap($max, $min, $latitude, $longitude) {
 function createQuestion($IDTopic, $title, $longitudeMap,
                          $latitudeMap, $zoomMax, $zoomMin, $longitudeResponse, $latitudeResponse, $marginError) {
     $db = (new Database())->getDB();
-    $stmt = $db->prepare("INSERT QUESTIONS(title, topic_id, response_id, map_id) VALUES (:TITLE, :TOPIC, :RESPONSE, :MAP)");
+    $stmt = $db->prepare("INSERT INTO QUESTIONS(title, topic_id, response_id, map_id) VALUES (:TITLE, :TOPIC, :RESPONSE, :MAP)");
     $IDMap = createMap($zoomMax, $zoomMin, $latitudeMap, $longitudeMap);
     if($IDMap === False) {
         return [
