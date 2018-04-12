@@ -2,11 +2,14 @@
 
 require_once __DIR__.'/functions.php';
 
-/*if(createUser('skyro', 'dev', 'skyro-dev', '1234') === false)
+$v=createUser('skyro', 'dev', 'skyro-dev', '1Skfd@234');
+print_r($v);
+if($v === false)
     print 'user is already create.';
-else
+else if($v ===true)
     print 'use is create';
-*/
+else print 'non';
+
 echo '<p>User 1 : </p>';
 echo '<pre>';
 print_r(getUser(1));
@@ -16,7 +19,7 @@ echo '<p>get All user: </p>';
 echo '<pre>';
 print_r(getUsers());
 echo '</pre>';
-
+/*
 echo '<p>get user id: </p>';
 echo '<pre>';
 print_r((getUserID('skyro-dev', '1234') !== False) ? getUserID('skyro-dev', '134') : 'FAUX');
@@ -74,4 +77,3 @@ echo ($map == False) ? "Echec" : "Success";*/
 //echo ($q == False) ? "Echec" : "Success";
 echo ("test getQuestions");
 print_r(getQuestions());
-
