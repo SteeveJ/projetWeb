@@ -15,7 +15,7 @@ use db\Database;
  * @return bool|mixed
  */
 function createUser($firstName, $lastName, $pseudo, $password, $role='user', $active=1) {
-    $check = check_userData($firstName, $lastName, $pseudo, $password, $role, $active);
+    $check = check_userData($firstName, $lastName, $password, $pseudo, $role, $active);
     if ($check['res'] === False)
         return $check['errors'];
     $db = (new Database())->getDB();
@@ -103,11 +103,12 @@ function check_userData($firstName, $lastName, $password, $pseudo, $role, $activ
         // compris entre 8 et 16 caractère, Au minimun 1 maj, 1 charactère spécial, un chiffre
         if ( strlen( $password ) < 8 || strlen( $password ) > 16 )
             array_push($errors, "Your password contains less than 8 char or more than 16 char.");
-        if (preg_match("/[A-Z]/",$password) !== 1 )
+        //debug_front(preg_match(mb_convert_encoding('/[#$%^&*()+=@\-\[\]\';,.\/{}|":<>?~\\\\]/', 'UTF-8'),$password));
+        if (preg_match(mb_convert_encoding('/[A-Z]/', 'UTF-8'),$password) !== 1 )
             array_push($errors,"Your Password must contain at least 1 uppercase!");
-        if( preg_match('/[#$%^&*()+=@\-\[\]\';,.\/{}|":<>?~\\\\]/', $password) !== 1 )
+        if( preg_match(mb_convert_encoding('/[#$%^&*()+=@\-\[\]\';,.\/{}|":<>?~\\\\]/', 'UTF-8'), $password) !== 1 )
             array_push($errors,"Your password must contain at least 1 special character!");
-        if (preg_match("/[0-9]/",$password) !== 1 )
+        if (preg_match(mb_convert_encoding('/[0-9]/', 'UTF-8'),$password) !== 1 )
             array_push($errors,"Your password must contain at least 1 number!");
     }
     // Vérification pseudo
