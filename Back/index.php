@@ -50,6 +50,9 @@ if ( isset($page) ) {
         case 'addQ':
             include __DIR__.'/views/addQuestion.form.php';
             break;
+        case 'addTopic':
+            include __DIR__.'/views/addTopic.form.php';
+            break;
         case 'form':
             include __DIR__ . '/views/validator.form.php';
             break;

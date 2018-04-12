@@ -23,7 +23,7 @@
  * min      : minimun zoom
  * max      : maximun zoom
  * */
-function check_form() {
+function check_form_question( $request ) {
     $url_error = '?page=addQ';
     $error = False;
 
@@ -37,8 +37,25 @@ function check_form() {
      *
      */
 
-    if($error)
-        redirect($url_error);
+    if( $error )
+        redirect( $url_error );
 
     //  Ajouter la question à la DB
+}
+
+function check_form_topic( $request ) {
+    if ( !empty( isset( $request['topic'] ) ) && strlen( str_replace( " ", '',$request['topic'] ) ) >= 1 )
+        createTopic($request['topic']);
+    else
+        redirect('?page=addTopic');
+
+    redirect('?page=admin');
+}
+
+if ( !empty( isset( $_GET['req'] ) ) ) {
+    switch ($_GET['req'] ){
+        case 'addTopic':
+            check_form_topic($_POST);
+            break;
+    }
 }
