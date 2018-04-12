@@ -33,10 +33,11 @@ class Database extends PDO {
         ];
 
         try {
-            $this->db = new PDO('mysql:host='.$this->host.';port='.$this->port.';dbname='.$this->dbName,
+            $this->db = new PDO('mysql:dbname'.$this->dbName.';host='.$this->host.':port='.$this->port.';dbname='.$this->dbName,
                                 $this->user,
                                 $this->pass,
                                 $options);
+            //$this->db = new PDO('mysql:dbname'.$this->dbName.'host='.$this->host.':port='.$this->port.';',$this->user,$this->pass);
         } catch (PDOException $e) {
             print "Erreur !: " . $e->getMessage() . "<br/>";
             die();
