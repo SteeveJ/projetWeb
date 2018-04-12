@@ -350,6 +350,13 @@ function createFeature(){
 function getQuestions()
 {
     //TODO : afficher les questions avec coordonnées
+    $db = (new Database())->getDB();
+    try {
+        $stmt = $db->prepare("Select ID_QUESTION,TITLE,TOPIC_ID,RESPONSE_ID,MAP_ID from QUESTIONS");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e){
+        return False;
+    }
 }
 
 /**
