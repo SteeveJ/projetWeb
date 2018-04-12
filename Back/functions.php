@@ -393,3 +393,10 @@ function redirect($url) {
     // no redirect
     header( "Location: $url" );
 }
+
+
+function debug_front($var) {
+    echo '<pre>';
+    print_r($var);
+    echo '</pre>';
+}

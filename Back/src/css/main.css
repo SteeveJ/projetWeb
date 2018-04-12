@@ -137,3 +137,7 @@ body {
     height: 100%;
     background-color: #2aabd2;
 }
+
+.sub-box{
+    margin: 20px;
+}

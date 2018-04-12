@@ -47,6 +47,12 @@ if ( isset($page) ) {
         case 'home':
             include __DIR__.'/views/home.php';
             break;
+        case 'addQ':
+            include __DIR__.'/views/addQuestion.form.php';
+            break;
+        case 'form':
+            include __DIR__ . '/views/validator.form.php';
+            break;
         default:
             include __DIR__.'/views/404.php';
     }
