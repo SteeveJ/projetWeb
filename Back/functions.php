@@ -21,7 +21,6 @@ function createUser($firstName, $lastName, $pseudo, $password, $role='user', $ac
     $db = (new Database())->getDB();
     $stmt = $db->prepare("INSERT INTO USERS(FIRSTNAME, LASTNAME, PSEUDO, PASSWORD, ROLE, ACTIVE) VALUES (:FIRSTNAME, :LASTNAME, :PSEUDO, :PASSWORD, :ROLE, :ACTIVE)");
     try {
-        echo 'Hello bug';
         $stmt->execute([
             'FIRSTNAME' => $firstName,
             'LASTNAME'  => $lastName,
@@ -33,7 +32,6 @@ function createUser($firstName, $lastName, $pseudo, $password, $role='user', $ac
         $stmt = null;
         return True;
     } catch (PDOException $e){
-        echo 'bug here';
         return False;
     }
 }
