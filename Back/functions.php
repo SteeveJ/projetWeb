@@ -181,7 +181,7 @@ function login($pseudo, $password) {
     $user = getUser($id['id_user']);
     session_start();
     $_SESSION['user'] = $user;
-    setcookie('connected', 'True', time() + (60 * 15));
+    setcookie('connected', 'True', time() + (60 * 30));
     return [
         'res'   => True
     ];
@@ -252,8 +252,6 @@ function getTopic($id) {
         return False;
     }
 }
-
-/* TODO:  Tester les fonctions suivante regarder le fichier Front/questions.json et Front/js/functions.js (loadingMap() et correction()) pour comprendre la logique */
 
 function createCoordinate($lat, $long) {
     $db = (new Database())->getDB();

@@ -49,7 +49,8 @@ function check_form_topic( $request ) {
     else
         redirect('?page=addTopic');
 
-    redirect('?page=admin');
+    debug_front($request);
+    //redirect('?page=admin');
 }
 
 if ( !empty( isset( $_GET['req'] ) ) ) {

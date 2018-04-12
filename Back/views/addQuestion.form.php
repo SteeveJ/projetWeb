@@ -35,7 +35,7 @@ $max = (!empty( isset( $_GET['max'] ) ) && gettype((int) $_GET['max']) === "inte
 <div class="container box mg-top">
     <div class="sub-box">
         <h2 class="text-center">Ajouter question</h2>
-        <form action="page=form&req=addQ" method="POST">
+        <form action="?page=form&req=addQ" method="POST">
             <h3>Sujet : </h3>
             <div class="form-group">
                 <label for="topic">Choisir un sujet</label>
@@ -55,7 +55,7 @@ $max = (!empty( isset( $_GET['max'] ) ) && gettype((int) $_GET['max']) === "inte
             <h3>Question : </h3>
             <div class="form-group">
                 <label for="name">Votre question : </label>
-                <input type="text" class="form-control" id="name" placeholder="Ou ce trouve ... ?" value="<?php echo $q; ?>">
+                <input type="text" class="form-control" id="name" placeholder="Ou se trouve ... ?" value="<?php echo $q; ?>">
             </div>
 
             <h3>Réponse : </h3>
