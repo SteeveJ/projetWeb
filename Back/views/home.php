@@ -108,6 +108,7 @@ include_once __DIR__.'/header.php';
                     <h4 class="modal-title" id="myModalLabel">Se connecter</h4>
                 </div>
                 <div class="modal-body">
+                    <?php if ( !empty( isset( $login['message'] ) ) ) echo "<p class='message'>".$login['message']."</p>";  ?>
                     <form method="POST" action="?page=<?php echo $page ?>&connexion=1">
                         <div class="form-group">
                             <label for="username-login">Pseudo : </label>
@@ -119,6 +120,55 @@ include_once __DIR__.'/header.php';
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary">Se connecter</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="signup" tabindex="-1" role="dialog" aria-labelledby="signupLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">S'inscrire</h4>
+                </div>
+                <div class="modal-body">
+                    <?php
+                        if ( !empty( isset( $messages_signup ) ) ) {
+                            echo "<div class='alert alert-danger'>";
+                            foreach ($messages_signup as $message_signup) {
+                                echo "<p>$message_signup</p>";
+                            }
+                            echo "</div>";
+                        }
+                    ?>
+                    <form method="POST" action="?page=<?php echo $page ?>&signup=1">
+                        <div class="form-group">
+                            <label for="username-signup">Pseudo : </label>
+                            <input id="username-signup" name="username-signup" class="form-control" type="text">
+                        </div>
+                        <div class="form-group">
+                            <label for="lastname-signup">Nom : </label>
+                            <input id="lastname-signup" name="lastname-signup" class="form-control" type="text">
+                        </div>
+                        <div class="form-group">
+                            <label for="firstname-signup">Prenom : </label>
+                            <input id="firstname-signup" name="firstname-signup" class="form-control" type="text">
+                        </div>
+                        <div class="form-group">
+                            <label for="password-signup">Mot de passe : </label>
+                            <input id="password-signup" name="password-signup" class="form-control" type="password">
+                        </div>
+                        <div class="form-group">
+                            <label for="password-v-signup">Mot de passe (vérification): </label>
+                            <input id="password-v-signup" name="password-v-signup" class="form-control" type="password">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">S'inscrire</button>
                             <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
                         </div>
                     </form>

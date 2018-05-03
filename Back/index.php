@@ -2,7 +2,6 @@
 
 require __DIR__.'/functions.php';
 
-
 // On vérifie si une page est ciblée
 if( !empty( isset( $_POST['page'] ) ) )
     $page  = $_POST['page'];
@@ -21,10 +20,36 @@ if ( !empty( isset( $_GET['connexion'] ) ) && $_GET['connexion'] === '1'
     $res = $_GET['connexion'];
     if( $res === '1' ) {
         $login = login($_POST['username-login'], $_POST['password-login']);
-        if( empty( $login ) ) {
-            echo $login['message'];
+        if( !empty( isset( $login['message'] ) ) ) {
+            logout();
         } else {
             header("Refresh:0; url=?page=$page");
+        }
+    }
+}
+
+// inscription
+if( !empty( isset( $_GET['signup'] ) ) && $_GET['signup'] === '1'){
+
+    if ( !empty( isset($_POST['username-signup']) )
+    &&  !empty( isset($_POST['password-signup']) )
+    &&  !empty( isset($_POST['password-v-signup']) )
+    &&  !empty( isset($_POST['lastname-signup']) )
+    &&  !empty( isset($_POST['username-signup']) )
+    &&  !empty( isset($_POST['firstname-signup']) ) ) {
+        $messages_signup = [];
+
+        if($_POST['password-v-signup'] !== $_POST['password-signup']) {
+            array_push($messages_signup, "Les mots de passes ne sont pas similaire.");
+        } else {
+            $res = createUser($_POST['firstname-signup'], $_POST['lastname-signup'], $_POST['username-signup'], $_POST['password-signup']);
+            debug_front($res);
+            debug_front(($res === False || ($res !== True || $res !== False)));
+
+            if ( $res === False || ($res !== True || $res !== False) ) {
+                $messages_signup = $res;
+            }
+
         }
     }
 }
@@ -55,6 +80,9 @@ if ( isset($page) ) {
             break;
         case 'form':
             include __DIR__ . '/views/validator.form.php';
+            break;
+        case 'admin':
+            include __DIR__.'/views/admin.php';
             break;
         default:
             include __DIR__.'/views/404.php';

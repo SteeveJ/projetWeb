@@ -1,62 +1,49 @@
 <?php
 
-
-// TODO : DRISS - Verifier quel formulaire est à valider (exemple requete GET URL : /?page=form&req=addQ) req est le nom du formaile. PS : il n'y aura que des requête GET
-
-
-/*
- * TODO : DRISS - Vérifier les informations du formulaire d'ajout de question et ajouter la question.
- *
- * Cette phase de vérification consiste à verifier que les données de la requête POST n'as pas été changer en cours de route.
- * Exemple : Si une valeur est supérieur a ce que l'on demande.
- * Aide
- * Les données reçu son en POST
- * Dans le cas ou un admin rentre des données incorrect : on retourne les donnée valide dans l'URL.
- * Les nom des paramettres GET a retourner.
- * id_t     : identifiant du sujet (topic)
- * q        : la question (c'est une string)
- * longR    : longitude la réponse à la question
- * latR     : latitude de la réponse à la question
- * margeR   : la marge d'erreur de l'utilisateur
- * longM    : la longitude pour positionner la carte
- * latM     : La latitude pour positionner la carte
- * min      : minimun zoom
- * max      : maximun zoom
- * */
+// validation form ajout question
 function check_form_question( $request ) {
-    $url_error = '?page=addQ';
-    $error = False;
+    debug_front($request);
+    debug_front(checkMaxQ($request['topic']));
+    debug_front(getQuestions());
 
-    /*
-     *  retourner les informations correct du formulaire avec un requete
-     *  GET (exemple Requete GET URL : ?page=addQ&id_q=2&q=salut+??+%26%26+dawa&longR=123.231&latR=-1.23&latM=1.5&max=12)
-     *  si la donnée n'est pas valide
-     *  $error = True
-     *  sinon si la donnée est valide on fait par exemple:
-     *  $url_error += "&q=$question";
-     *
-     */
+    if (!empty( isset($request['topic'])) && !empty( isset($request['title'])) &&  !empty( isset($request['longitudeMap']))
+        && !empty( isset($request['latitudeMap'])) && !empty( isset($request['zoomMaxMap'])) && !empty( isset($request['zoomMinMap']))
+        && !empty( isset($request['longitudeR'])) && !empty( isset($request['latitudeR'])) && !empty( isset($request['margeR'])) ) {
+        // TODO : Driss Faire les verifications
+        createQuestion($request['topic'], $request['title'], $request['longitudeMap'],
+            $request['latitudeMap'], $request['zoomMaxMap'], $request['zoomMinMap'],
+            $request['longitudeR'], $request['latitudeR'], $request['margeR']);
+        // TODO: Driss retouner vers la page admin si correct sinon retourner les information en get (voir les noms des element dans addQuestion.form.php)
+    }
 
-    if( $error )
-        redirect( $url_error );
 
     //  Ajouter la question à la DB
 }
 
+// validation du formulaire d'ajout des topic
 function check_form_topic( $request ) {
-    if ( !empty( isset( $request['topic'] ) ) && strlen( str_replace( " ", '',$request['topic'] ) ) >= 1 )
-        createTopic($request['topic']);
-    else
+    $messages = [];
+    if ( !empty( isset( $request['topic'] ) ) && strlen( str_replace( " ", '',$request['topic'] ) ) >= 1 ) {
+        $res = createTopic($request['topic']);
+        if ( $res === False ) {
+            array_push($messages, "Le sujet existe déjà.");
+        } else {
+            redirect('?page=admin');
+        }
+    } else {
         redirect('?page=addTopic');
-
-    debug_front($request);
-    //redirect('?page=admin');
+    }
+    alert($messages);
+    echo "<p> <a href='/?page=addTopic'>Retour page précedente</a></p>";
 }
 
 if ( !empty( isset( $_GET['req'] ) ) ) {
     switch ($_GET['req'] ){
         case 'addTopic':
             check_form_topic($_POST);
+            break;
+        case 'addQ':
+            check_form_question($_POST);
             break;
     }
 }

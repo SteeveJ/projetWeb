@@ -346,15 +346,26 @@ function createFeature(){
 
 }
 
-function getQuestions()
-{
-    //TODO : afficher les questions avec coordonnées
+function getQuestions() {
     $db = (new Database())->getDB();
     try {
         $stmt = $db->prepare("Select ID_QUESTION,TITLE,TOPIC_ID,RESPONSE_ID,MAP_ID from QUESTIONS");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e){
         return False;
+    }
+}
+
+function checkMaxQ($id_topic){
+    $db = (new Database())->getDB();
+    $stmt = $db->prepare("SELECT count(*) as count FROM QUESTIONS WHERE TOPIC_ID=:ID");
+    try {
+        $stmt->execute([
+            "ID"=>$id_topic
+        ]);
+        return $stmt->fetch();
+    } catch(PDOException $e) {
+        echo $e;
     }
 }
 
@@ -393,6 +404,15 @@ function redirect($url) {
     header( "Location: $url" );
 }
 
+function alert($messages) {
+    if ( !empty( isset( $messages) ) ) {
+        echo "<div class='alert alert-danger'>";
+        foreach ($messages as $m) {
+            echo "<p>$m</p>";
+        }
+        echo "</div>";
+    }
+}
 
 function debug_front($var) {
     echo '<pre>';

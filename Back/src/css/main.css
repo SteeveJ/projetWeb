@@ -141,3 +141,14 @@ body {
 .sub-box{
     margin: 20px;
 }
+
+.options {
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 20px;
+    color: #3c3c3c;
+}
+
+.options li {
+    list-style-type: none;
+}

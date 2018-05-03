@@ -5,7 +5,7 @@
 
 // TODO: Ajouter condition super admin
 
-$title_website = 'add Question';
+$title_website = 'Add topic';
 
 $styles = [
     './src/css/main.css',
@@ -24,6 +24,7 @@ include_once __DIR__.'/header.php';
 <div class="container box mg-top">
     <div class="sub-box">
         <h2 class="text-center">Ajouter Topic</h2>
+        <?php if ( !empty( isset($message) ) ) echo "<p>$message</p>";  ?>
         <form action="?page=form&req=addTopic" method="POST">
 
             <div class="form-group">
