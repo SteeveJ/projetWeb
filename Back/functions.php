@@ -346,10 +346,23 @@ function createFeature(){
 
 }
 
-function getQuestions() {
+function getQuestions($id_topic) {
     $db = (new Database())->getDB();
     try {
         $stmt = $db->prepare("Select ID_QUESTION,TITLE,TOPIC_ID,RESPONSE_ID,MAP_ID from QUESTIONS");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e){
+        return False;
+    }
+}
+
+function getQuestionsTopic($id_topic) {
+    $db = (new Database())->getDB();
+    try {
+        $stmt = $db->prepare("Select ID_QUESTION,TITLE,TOPIC_ID,RESPONSE_ID,MAP_ID from QUESTIONS WHERE TOPIC_ID=:ID");
+        $stmt->execute([
+            'ID'     => $id_topic
+        ]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e){
         return False;
