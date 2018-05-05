@@ -29,8 +29,7 @@ if ( !empty( isset( $_GET['connexion'] ) ) && $_GET['connexion'] === '1'
 }
 
 // inscription
-if( !empty( isset( $_GET['signup'] ) ) && $_GET['signup'] === '1'){
-
+if( !empty( isset( $_GET['signup'] ) ) && $_GET['signup'] === '1') {
     if ( !empty( isset($_POST['username-signup']) )
     &&  !empty( isset($_POST['password-signup']) )
     &&  !empty( isset($_POST['password-v-signup']) )
@@ -38,7 +37,6 @@ if( !empty( isset( $_GET['signup'] ) ) && $_GET['signup'] === '1'){
     &&  !empty( isset($_POST['username-signup']) )
     &&  !empty( isset($_POST['firstname-signup']) ) ) {
         $messages_signup = [];
-
         if($_POST['password-v-signup'] !== $_POST['password-signup']) {
             array_push($messages_signup, "Les mots de passes ne sont pas similaire.");
         } else {

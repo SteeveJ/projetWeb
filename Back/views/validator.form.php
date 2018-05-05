@@ -30,8 +30,6 @@ function check_form_topic( $request ) {
         } else {
             redirect('?page=admin');
         }
-    } else {
-        redirect('?page=addTopic');
     }
     alert($messages);
     echo "<p> <a href='/?page=addTopic'>Retour page précedente</a></p>";
