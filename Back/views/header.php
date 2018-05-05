@@ -58,7 +58,7 @@
                 <ul class="nav navbar-nav navbar-right">
                     <?php
                         if ( is_connected() ) {
-                            echo "<li><a href='#'>".$_SESSION['user']['firstname']." ".$_SESSION['user']['lastname']."</a></li>
+                            echo "<li><a href='?page=admin'>".$_SESSION['user']['firstname']." ".$_SESSION['user']['lastname']."</a></li>
                                    <li><a href='?connexion=0'>logout</a></li>";
                         } else
                             echo "<li><a href=\"#login\" data-toggle=\"modal\" data-target=\"#login\">Se connecter</a></li>
