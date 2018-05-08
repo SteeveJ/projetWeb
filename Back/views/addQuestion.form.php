@@ -100,3 +100,4 @@ $max = (!empty( isset( $_GET['max'] ) ) && gettype((int) $_GET['max']) === "inte
 <?php
 
 include_once __DIR__.'/footer.php';
+?>

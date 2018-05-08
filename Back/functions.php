@@ -341,9 +341,29 @@ function createQuestion($IDTopic, $title, $longitudeMap,
     }
 }
 
-// TODO : Crée la fonction qui ajoute des cordonnée pour concevoir le polygone sur la map
-function createFeature(){
+function createFeature($id_quest,$ptsArray){
+    $db = (new Database())->getDB();
+    for ($i=0; $i < count($ptsArray); $i++) { 
+        $cid = createCoordinate($ptsArray[$i][$i]);
+        if($cid === False) {
+        return [
+            'res'       => False,
+            'message'   => 'Fail : createFeature_Coordinate',
+        ];
+        $stmt=$db->prepare("INSERT INTO FEATURES(coordinate_id,ID_QUESTION) VALUES(:CID,:QID)");
+        try {
+        $stmt->execute([
+            'CID' => $cid,
+            'QID' => $id_quest
+        ]);
+        return $db->lastInsertId();
+    } catch (PDOException $e){
+        return False;
+    }
+    }
 
+    }
+    return $db->lastInsertId();
 }
 
 function getQuestions($id_topic) {
@@ -356,6 +376,16 @@ function getQuestions($id_topic) {
     }
 }
 
+function getQuestionsFormate()//retourne les questions sous format : nom_topic - Titre_Question,je vais l'utiliser en Ajouter_Feature
+{
+    $db = (new Database())->getDB();
+    try {
+        $stmt = $db->prepare("Select ID_QUESTION,name+' - '+Title as Nom_Formate from features join questions join topics");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e){
+        return False;
+    }
+}
 function getQuestionsTopic($id_topic) {
     $db = (new Database())->getDB();
     try {

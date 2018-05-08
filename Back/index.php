@@ -73,6 +73,9 @@ if ( isset($page) ) {
         case 'addQ':
             include __DIR__.'/views/addQuestion.form.php';
             break;
+        case 'addFeature':
+            include __DIR__.'/views/addFeature.form.php';
+            break;
         case 'addTopic':
             include __DIR__.'/views/addTopic.form.php';
             break;
