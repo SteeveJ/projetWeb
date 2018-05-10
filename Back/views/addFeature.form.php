@@ -55,6 +55,33 @@ $questions = getQuestionsFormate();
                     <option value="6">6</option>
                 </select>
             </div>
+            <div class="form-group">
+                <div id="mapid" style="height:380px;"></div>
+            </div>
+            <script>
+            var mymap = L.map('mapid').setView([51.505, -0.09], 13);
+            L.tileLayer('http://{s}.tile.cloudmade.com/e7b61e61295a44a5b319ca0bd3150890/997/256/{z}/{x}/{y}.png', {
+    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery Â© <a href="http://cloudmade.com">CloudMade</a>',
+    maxZoom: 18
+}).addTo(mymap);
+var popup = L.popup();
+
+function onMapClick(e) {
+    L.marker(e.latlng).addTo(mymap);
+    var polygon = L.polygon([
+    [51.509, -0.08],
+    [51.503, -0.06],
+    [51.51, -0.047]
+]).addTo(mymap);
+    polygon.color = "red";
+    polygon.fillColor= '#f03';
+
+}
+
+mymap.on('click', onMapClick);
+
+</script>
+
             <button type="submit" class="btn btn-default">Ajouter</button>
         </form>
     </div>
