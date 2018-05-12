@@ -388,7 +388,7 @@ function getQuestionsFormate()//retourne les questions sous format : nom_topic -
 {
     $db = (new Database())->getDB();
     try {
-        $stmt = $db->prepare("Select ID_QUESTION,name+' - '+Title as Nom_Formate from features join questions join topics");
+        $stmt = $db->prepare("Select ID_QUESTION,Concat(name,' - ',Title) as Nom_Formate from questions join topics");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e){
         return False;
