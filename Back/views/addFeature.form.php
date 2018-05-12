@@ -38,8 +38,9 @@ $questions = getQuestionsFormate();
                 <label for="question">Question</label>
                 <select name="question" class="form-control" id="question">
                     <?php
-
+                    debug_front($questions);
                         foreach ($questions as $q){
+
                             if ($id_q != null && $t['ID_QUESTION'] == $id_t)
                                 echo '<option value="'.$q['ID_QUESTION'].'" selected>'.$q['Nom_Formate'].'</option>';
                             else
