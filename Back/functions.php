@@ -374,10 +374,10 @@ function createFeature($id_quest,$ptsArray){
 return $db->lastInsertId();
 }
 
-function getQuestions($id_topic) {
+function getQuestions() {
     $db = (new Database())->getDB();
     try {
-        $stmt = $db->prepare("Select ID_QUESTION,TITLE,TOPIC_ID,RESPONSE_ID,MAP_ID from QUESTIONS");
+        $stmt = $db->query("Select ID_QUESTION,TITLE,TOPIC_ID,RESPONSE_ID,MAP_ID from QUESTIONS");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e){
         return False;
@@ -388,7 +388,7 @@ function getQuestionsFormate()//retourne les questions sous format : nom_topic -
 {
     $db = (new Database())->getDB();
     try {
-        $stmt = $db->prepare("Select ID_QUESTION,Concat(name,' - ',Title) as Nom_Formate from questions join topics");
+        $stmt = $db->query("Select ID_QUESTION,Concat(name,' - ',Title) as Nom_Formate from questions join topics");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e){
         return False;

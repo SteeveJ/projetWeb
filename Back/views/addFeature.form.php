@@ -22,14 +22,17 @@ $f_scripts = [
 
 include_once __DIR__.'/header.php';
 
-$questions = getQuestionsFormate();
+$questions = getQuestions();
 // En cas d'erreur de saisie
 ?>
 
 <div class="container box mg-top">
     <div class="sub-box">
         <h2 class="text-center">Ajouter Feature</h2>
-        <?php if ( !empty( isset($message) ) ) echo "<p>$message</p>";//affichage d'erreurs en cas d'erreur  ?>
+        <?php
+            if ( !empty( isset($message) ) ) echo "<p>$message</p>";//affichage d'erreurs en cas d'erreur
+            debug_front($questions);
+        ?>
         <script src="JKS.js"></script>
 
         <form action="?page=form&req=addFeature" method="POST">
@@ -38,7 +41,6 @@ $questions = getQuestionsFormate();
                 <label for="question">Question</label>
                 <select name="question" class="form-control" id="question">
                     <?php
-                    debug_front($questions);
                         foreach ($questions as $q){
 
                             if ($id_q != null && $t['ID_QUESTION'] == $id_t)
