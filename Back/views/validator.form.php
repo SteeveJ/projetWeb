@@ -14,7 +14,7 @@ function check_form_feature( $request)
     $messages = [];
     if(count($arr) < 6)//moin de 3 points fournis
         array_push($messages,"Veuillez specifier au moin 3 points");
-    if(empty( isset( $request['question']))
+    if(empty( isset( $request['question'])))
         array_push($messages,"Aucune question specifiée");
     //fin traitement erreurs
     if(count($messages) > 0)
