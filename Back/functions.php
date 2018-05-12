@@ -363,7 +363,7 @@ function createFeature($id_quest,$ptsArray){
                 'CID' => $cid,
                 'QID' => $id_quest
             ]);
-            return $db->lastInsertId();
+            $db->lastInsertId();
         } catch (PDOException $e){
             return False;
         }
