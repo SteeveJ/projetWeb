@@ -36,9 +36,6 @@ function check_form_feature( $request)
 // validation form ajout question
 function check_form_question( $request ) 
 {
-    debug_front($request);
-    debug_front(checkMaxQ($request['topic']));
-    debug_front(getQuestions());
     $bonnesVal="";
 
     if (!empty( isset($request['topic'])) && !empty( isset($request['title'])) &&  !empty( isset($request['longitudeMap']))

@@ -488,6 +488,8 @@ function getScores($userId) {
 }
 
 function is_admin($role) {
-    return $role == "admin";
+    if(strcasecmp($role,"admin")==0)
+        return True;
+    else return False;
 }
 
