@@ -3,21 +3,39 @@
 // validation form ajout feature
 function check_form_feature( $request)
 {
+    //ce bout formate les coordonnées tq les latitudes sont les index pairs , et longitudes impaires
+    $arr=str_replace("LatLng(","", $request['pointsV']);
+    $arr=str_replace(")","", $arr);
+    $arr=explode(",",$arr);
+
+    print_r($arr);
+    print_r(count($arr));
+    //debut traitement erreurs
     $messages = [];
-    if ( !empty( isset( $request['question'] ) ) && strlen( str_replace( " ", '',$request['question'] ) ) >= 1 ) {//men hna lte7t khas itse7
-        $res = createFeature($request['question']);
+    if(count($arr) < 6)//moin de 3 points fournis
+        array_push($messages,"Veuillez specifier au moin 3 points");
+    if(empty( isset( $request['question']))
+        array_push($messages,"Aucune question specifiée");
+    //fin traitement erreurs
+    if(count($messages) > 0)
+    {
+        alert($messages);
+        echo "<p> <a href='/?page=addFeature'>Retour page précedente</a></p>";
+    }
+    else
+    {
+        $res = createFeature($request['question'],$arr);
         if ( $res === False ) {
             array_push($messages, "Un ou plusieurs coordonnées indiquées existe déjà pour cette question.");
         } else {
             redirect('?page=admin');
         }
     }
-    alert($messages);
-    echo "<p> <a href='/?page=addFeature'>Retour page précedente</a></p>";
 }
 
 // validation form ajout question
-function check_form_question( $request ) {
+function check_form_question( $request ) 
+{
     debug_front($request);
     debug_front(checkMaxQ($request['topic']));
     debug_front(getQuestions());
@@ -60,9 +78,7 @@ function check_form_question( $request ) {
         {
             redirect('?page=addQ'.$bonnesVal);
         }
-    }
 }
-
 // validation du formulaire d'ajout des topic
 function check_form_topic( $request ) {
     $messages = [];

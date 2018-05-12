@@ -107,7 +107,7 @@ function check_userData($firstName, $lastName, $password, $pseudo, $role, $activ
         if (preg_match(mb_convert_encoding('/[A-Z]/', 'UTF-8'),$password) !== 1 )
             array_push($errors,"Your Password must contain at least 1 uppercase!");
         if( preg_match(mb_convert_encoding('/[#$%^&*()+=@\-\[\]\';,.\/{}|":<>?~\\\\]/', 'UTF-8'), $password) !== 1 )
-            array_push($errors,"Your password must contain at least 1 special character!");
+        array_push($errors,"Your password must contain at least 1 special character!");
         if (preg_match(mb_convert_encoding('/[0-9]/', 'UTF-8'),$password) !== 1 )
             array_push($errors,"Your password must contain at least 1 number!");
     }
@@ -125,19 +125,19 @@ function check_userData($firstName, $lastName, $password, $pseudo, $role, $activ
             array_push($errors,"Role is neither user nor admin");
 
     // Vérification is active
-    if( !in_array($active, [0,1] ) )
-        array_push($errors,"Active is neither 0 nor 1");
+        if( !in_array($active, [0,1] ) )
+            array_push($errors,"Active is neither 0 nor 1");
 
-    if (sizeof($errors) === 0)
-        return [
-            'res'    => True,
-        ];
-    else
-        return [
-            'res'    => False,
-            'errors' => $errors
-        ];
-}
+        if (sizeof($errors) === 0)
+            return [
+                'res'    => True,
+            ];
+            else
+                return [
+                    'res'    => False,
+                    'errors' => $errors
+                ];
+            }
 
 /**
  * Permet de recupérer l'id d'un utilisateur en fonction 
@@ -173,19 +173,19 @@ function login($pseudo, $password) {
             'res'       => False,
             'message'   => 'Password or pseudo is not valid'
         ];
-    if (!empty( isset( $_COOKIE['connected'] ) ))
-        return [
-            'res'       => False,
-            'message'   => 'Une session est déjà active'
-        ];
-    $user = getUser($id['id_user']);
-    session_start();
-    $_SESSION['user'] = $user;
-    setcookie('connected', 'True', time() + (60 * 30));
-    return [
-        'res'   => True
-    ];
-}
+        if (!empty( isset( $_COOKIE['connected'] ) ))
+            return [
+                'res'       => False,
+                'message'   => 'Une session est déjà active'
+            ];
+            $user = getUser($id['id_user']);
+            session_start();
+            $_SESSION['user'] = $user;
+            setcookie('connected', 'True', time() + (60 * 30));
+            return [
+                'res'   => True
+            ];
+        }
 
 /**
  * Permet de déconnecter un utilisateur dur le site
@@ -311,7 +311,7 @@ function createMap($max, $min, $latitude, $longitude) {
 }
 
 function createQuestion($IDTopic, $title, $longitudeMap,
-                         $latitudeMap, $zoomMax, $zoomMin, $longitudeResponse, $latitudeResponse, $marginError) {
+ $latitudeMap, $zoomMax, $zoomMin, $longitudeResponse, $latitudeResponse, $marginError) {
     $db = (new Database())->getDB();
     $stmt = $db->prepare("INSERT INTO QUESTIONS(title, topic_id, response_id, map_id) VALUES (:TITLE, :TOPIC, :RESPONSE, :MAP)");
     $IDMap = createMap($zoomMax, $zoomMin, $latitudeMap, $longitudeMap);
@@ -343,27 +343,32 @@ function createQuestion($IDTopic, $title, $longitudeMap,
 
 function createFeature($id_quest,$ptsArray){
     $db = (new Database())->getDB();
-    for ($i=0; $i < count($ptsArray); $i++) { 
-        $cid = createCoordinate($ptsArray[$i][$i]);
+    $i=0;
+    do
+    {
+        $cid = createCoordinate($ptsArray[$i],$ptsArray[$i+1]);
         if($cid === False) {
-        return [
-            'res'       => False,
-            'message'   => 'Fail : createFeature_Coordinate',
-        ];
+            return [
+                'res'       => False,
+                'message'   => 'Fail : createFeature_Coordinate',
+            ];
+        }
+        else{
         $stmt=$db->prepare("INSERT INTO FEATURES(coordinate_id,ID_QUESTION) VALUES(:CID,:QID)");
         try {
-        $stmt->execute([
-            'CID' => $cid,
-            'QID' => $id_quest
-        ]);
-        return $db->lastInsertId();
-    } catch (PDOException $e){
-        return False;
-    }
-    }
+            $stmt->execute([
+                'CID' => $cid,
+                'QID' => $id_quest
+            ]);
+            return $db->lastInsertId();
+        } catch (PDOException $e){
+            return False;
+        }
+        }
+        $i=$i+2;//+2 pour passer au point suivant
+    }while($i <= (count($ptsArray)-1));
 
-    }
-    return $db->lastInsertId();
+return $db->lastInsertId();
 }
 
 function getQuestions($id_topic) {

@@ -30,6 +30,8 @@ $questions = getQuestionsFormate();
     <div class="sub-box">
         <h2 class="text-center">Ajouter Feature</h2>
         <?php if ( !empty( isset($message) ) ) echo "<p>$message</p>";//affichage d'erreurs en cas d'erreur  ?>
+        <script src="JKS.js"></script>
+
         <form action="?page=form&req=addFeature" method="POST">
 
             <div class="form-group">
@@ -47,17 +49,11 @@ $questions = getQuestionsFormate();
                 </select>
             </div>
             <div class="form-group">
-                <label for="numPoints">Nombre de Points</label>
-                <select name="numPoints" class="form-control" id="numPoints">
-                    <option value="3" selected>3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                </select>
-            </div>
-            <div class="form-group">
                 <div id="mapid" style="height:380px;"></div>
             </div>
+                <div class="form-group">
+                    <input type="hidden" id="pointsV" name="pointsV">
+                </div>
             <script>
             var mymap = L.map('mapid').setView([51.505, -0.09], 13);
             L.tileLayer('http://{s}.tile.cloudmade.com/e7b61e61295a44a5b319ca0bd3150890/997/256/{z}/{x}/{y}.png', {
@@ -65,14 +61,14 @@ $questions = getQuestionsFormate();
     maxZoom: 18
 }).addTo(mymap);
 var popup = L.popup();
-
+var points=[];
 function onMapClick(e) {
+
     L.marker(e.latlng).addTo(mymap);
-    var polygon = L.polygon([
-    [51.509, -0.08],
-    [51.503, -0.06],
-    [51.51, -0.047]
-]).addTo(mymap);
+    
+points.push(e.latlng);
+document.getElementById("pointsV").value=points;
+var polygon = L.polygon(points).addTo(mymap);
     polygon.color = "red";
     polygon.fillColor= '#f03';
 
@@ -81,7 +77,6 @@ function onMapClick(e) {
 mymap.on('click', onMapClick);
 
 </script>
-
             <button type="submit" class="btn btn-default">Ajouter</button>
         </form>
     </div>
@@ -92,3 +87,4 @@ mymap.on('click', onMapClick);
 
 include_once __DIR__.'/footer.php';
 
+?>
