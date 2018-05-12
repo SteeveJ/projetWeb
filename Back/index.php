@@ -85,6 +85,9 @@ if ( isset($page) ) {
         case 'admin':
             include __DIR__.'/views/admin.php';
             break;
+        case 'profil':
+            include __DIR__.'/views/profil.php';
+            break;
         default:
             include __DIR__.'/views/404.php';
     }

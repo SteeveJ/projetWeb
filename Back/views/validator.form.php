@@ -60,7 +60,6 @@ function check_form_question( $request ) {
         {
             redirect('?page=addQ'.$bonnesVal);
         }
-    }
 }
 
 // validation du formulaire d'ajout des topic

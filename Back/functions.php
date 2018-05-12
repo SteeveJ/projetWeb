@@ -160,6 +160,7 @@ function getUserID($pseudo, $password) {
     }
 }
 
+
 /**
  * Fonction de connexion des utilisateurs
  * @param string $pseudo
@@ -173,11 +174,11 @@ function login($pseudo, $password) {
             'res'       => False,
             'message'   => 'Password or pseudo is not valid'
         ];
-    if (!empty( isset( $_COOKIE['connected'] ) ))
+    /*if (!empty( isset( $_COOKIE['connected'] ) ))
         return [
             'res'       => False,
             'message'   => 'Une session est déjà active'
-        ];
+        ];*/
     $user = getUser($id['id_user']);
     session_start();
     $_SESSION['user'] = $user;
@@ -247,7 +248,7 @@ function getTopic($id) {
         $stmt->execute([
             "ID"=>$id
         ]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     } catch (PDOException $e){
         return False;
     }
@@ -462,3 +463,24 @@ function debug_front($var) {
     print_r($var);
     echo '</pre>';
 }
+
+/**
+ * @param integer $userId
+ */
+function getScores($userId) {
+    $db = (new Database())->getDB();
+    try {
+        $stmt = $db->prepare("SELECT TOPIC_ID,MAX(SCORE) as scoreMax FROM SCORES WHERE USER_ID = :ID GROUP BY TOPIC_ID");
+        $stmt->execute([
+            "ID" => $userId
+        ]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e){
+        return False;
+    }
+}
+
+function is_admin($role) {
+    return $role == "admin";
+}
+

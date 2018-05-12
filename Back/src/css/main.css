@@ -152,3 +152,15 @@ body {
 .options li {
     list-style-type: none;
 }
+
+.identificateur {
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.titre {
+    text-transform: uppercase;
+    font-weight: bold;
+    padding-bottom: 20px;
+    padding-top: 20px;
+}
