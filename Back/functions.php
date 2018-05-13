@@ -397,7 +397,18 @@ function getQuestionsFormate()//retourne les questions sous format : nom_topic -
 function getQuestionsTopic($id_topic) {
     $db = (new Database())->getDB();
     try {
-        $stmt = $db->prepare("Select ID_QUESTION,TITLE,TOPIC_ID,RESPONSE_ID,MAP_ID from QUESTIONS WHERE TOPIC_ID=:ID");
+        $stmt = $db->prepare("
+            SELECT QUESTIONS.ID_QUESTION as ID, QUESTIONS.TITLE as q,
+            REPONSE.LATITUDE as resp_lat, REPONSE.LONGITUDE as resp_long,
+            RESPONSES.MARGINERROR as resp_marginerror, MAPS.ZOOMMAX as map_zmax,
+            MAPS.ZOOMMIN as map_zmin, MAP.LATITUDE as map_lat, MAP.LONGITUDE as map_long 
+            FROM QUESTIONS
+            JOIN RESPONSES ON RESPONSES.ID_RESPONSE = QUESTIONS.RESPONSE_ID
+            JOIN COORDINATES as reponse ON RESPONSES.COORDINATE_ID = reponse.ID_COORDINATE
+            JOIN MAPS ON QUESTIONS.MAP_ID = MAPS.ID_MAP
+            JOIN COORDINATES as map ON map.ID_COORDINATE = MAPS.COORDINATE_ID
+            WHERE QUESTIONS.TOPIC_ID = :ID
+        ");
         $stmt->execute([
             'ID'     => $id_topic
         ]);
@@ -426,6 +437,16 @@ function checkMaxQ($id_topic){
 function getTopics_json() {
     $q = getTopics();
 
+    if($q === false)
+        echo "Une erreur est survenue dans la requête";
+    else
+        echo json_encode($q, JSON_PRETTY_PRINT);
+}
+
+
+function getQuestions_Json($id_topic) {
+    if ( empty( isset( $id_topic ) ) ) return null;
+    $q = getQuestionsTopic($id_topic);
     if($q === false)
         echo "Une erreur est survenue dans la requête";
     else
