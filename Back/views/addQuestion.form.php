@@ -62,9 +62,9 @@ $max = (!empty( isset( $_GET['max'] ) ) && gettype((int) $_GET['max']) === "inte
             <div class="form-group">                
                 <div id="Rmapid" style="height:380px;"></div>
                 <label for="latitudeR">Latitude : </label>
-                <input type="number" class="form-control" step="any" min="-180" max="180" id="latitudeR" name="latitudeR" placeholder="1.234" value="<?php echo $latR; ?>" disabled>
+                <input type="number" class="form-control" step="any" min="-180" max="180" id="latitudeR" name="latitudeR" placeholder="1.234" value="<?php echo $latR; ?>" readonly>
                 <label for="longitudeR">Longitude</label>
-                <input type="number" class="form-control" step="any" min="-180" max="180" id="longitudeR" name="longitudeR" placeholder="1.234" value="<?php echo $longR; ?>" disabled>
+                <input type="number" class="form-control" step="any" min="-180" max="180" id="longitudeR" name="longitudeR" placeholder="1.234" value="<?php echo $longR; ?>" readonly>
             </div>
             <div class="form-group">
                 <label for="margeR">Un marge d'erreur (entre 0 et 1): </label>
@@ -89,11 +89,11 @@ $max = (!empty( isset( $_GET['max'] ) ) && gettype((int) $_GET['max']) === "inte
                 </script>
 
                 <label for="longitudeMap">Longitude</label>
-                <input type="number" class="form-control" step="any" min="-180" max="180" id="longitudeMap" name="longitudeMap" placeholder="1.234" value="<?php echo $longM; ?>" disabled>
+                <input type="number" class="form-control" step="any" min="-180" max="180" id="longitudeMap" name="longitudeMap" placeholder="1.234" value="<?php echo $longM; ?>" readonly>
             </div>
             <div class="form-group">
                 <label for="latitudeMap">Latitude : </label>
-                <input type="number" class="form-control" step="any" min="-180" max="180" id="latitudeMap" name="latitudeMap" placeholder="1.234" value="<?php echo $latM; ?>" disabled>
+                <input type="number" class="form-control" step="any" min="-180" max="180" id="latitudeMap" name="latitudeMap" placeholder="1.234" value="<?php echo $latM; ?>" readonly>
             </div>
             <div class="form-group">
                 <label for="zoomMinMap">Zoom minimum (entre 10 et 15): </label>
