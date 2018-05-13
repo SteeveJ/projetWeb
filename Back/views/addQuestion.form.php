@@ -59,13 +59,12 @@ $max = (!empty( isset( $_GET['max'] ) ) && gettype((int) $_GET['max']) === "inte
             </div>
 
             <h3>Réponse : </h3>
-            <div class="form-group">
-                <label for="longitudeR">Longitude</label>
-                <input type="number" class="form-control" step="any" min="-180" max="180" id="longitudeR" name="longitudeR" placeholder="1.234" value="<?php echo $longR; ?>">
-            </div>
-            <div class="form-group">
+            <div class="form-group">                
+                <div id="Rmapid" style="height:380px;"></div>
                 <label for="latitudeR">Latitude : </label>
-                <input type="number" class="form-control" step="any" min="-180" max="180" id="latitudeR" name="latitudeR" placeholder="1.234" value="<?php echo $latR; ?>">
+                <input type="number" class="form-control" step="any" min="-180" max="180" id="latitudeR" name="latitudeR" placeholder="1.234" value="<?php echo $latR; ?>" disabled>
+                <label for="longitudeR">Longitude</label>
+                <input type="number" class="form-control" step="any" min="-180" max="180" id="longitudeR" name="longitudeR" placeholder="1.234" value="<?php echo $longR; ?>" disabled>
             </div>
             <div class="form-group">
                 <label for="margeR">Un marge d'erreur (entre 0 et 1): </label>
@@ -74,12 +73,27 @@ $max = (!empty( isset( $_GET['max'] ) ) && gettype((int) $_GET['max']) === "inte
 
             <h3>Affichage de la carte : </h3>
             <div class="form-group">
+                <div id="Amapid" style="height:380px;"></div>
+                                <script type="text/javascript" src="../Back/src/js/addQ.form.js"></script>
+                <script type="text/javascript">
+                    function onMapRClick(e) {
+                        document.getElementById("latitudeR").value=e.latlng.lat;
+                        document.getElementById("longitudeR").value=e.latlng.lng;
+                    }                       
+                    myRmap.on('click', onMapRClick);
+                    function onMapAClick(e) {
+                        document.getElementById("latitudeMap").value=e.latlng.lat;
+                        document.getElementById("longitudeMap").value=e.latlng.lng;
+                    }                       
+                    myAmap.on('click', onMapAClick);
+                </script>
+
                 <label for="longitudeMap">Longitude</label>
-                <input type="number" class="form-control" step="any" min="-180" max="180" id="longitudeMap" name="longitudeMap" placeholder="1.234" value="<?php echo $longM; ?>">
+                <input type="number" class="form-control" step="any" min="-180" max="180" id="longitudeMap" name="longitudeMap" placeholder="1.234" value="<?php echo $longM; ?>" disabled>
             </div>
             <div class="form-group">
                 <label for="latitudeMap">Latitude : </label>
-                <input type="number" class="form-control" step="any" min="-180" max="180" id="latitudeMap" name="latitudeMap" placeholder="1.234" value="<?php echo $latM; ?>">
+                <input type="number" class="form-control" step="any" min="-180" max="180" id="latitudeMap" name="latitudeMap" placeholder="1.234" value="<?php echo $latM; ?>" disabled>
             </div>
             <div class="form-group">
                 <label for="zoomMinMap">Zoom minimum (entre 10 et 15): </label>
