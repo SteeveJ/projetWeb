@@ -34,6 +34,7 @@ function initMap(lat, lng, zMax, zMin){
     // On initialise une instance de leaflet
     map = new L.Map('map');
 
+    console.log(lat, lng, zMax, zMin);
     // On charge les coordonnées de base de la carte
     map.setView([lat, lng], zMin);
 
@@ -41,13 +42,14 @@ function initMap(lat, lng, zMax, zMin){
      *  On charge la carte depuis l'api mapbox qui sont des contributeurs de openstreetmap
      *  On peut reglé le zoom de la carte ici.
      */
-    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1Ijoic2t5cm8iLCJhIjoiY2pkcHpqd3Z0MHpkODJ3cXpuaDAxanFjdyJ9.Ta1TlUNAb5MZe2MJl6YAtw', {
+    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
         maxZoom: zMax,
         minZoom: zMin,
         attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
         '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
         'Imagery © <a href="http://mapbox.com">Mapbox</a>',
-        id: 'mapbox.light'
+        id: 'mapbox.light',
+        accessToken: 'pk.eyJ1Ijoic2t5cm8iLCJhIjoiY2poNmV6ejNvMTlneDJxbGYzeTdya2JucyJ9.qyocW9FTx8QmAv3p4HBXaA'
     }).addTo(map);
 
 }
@@ -57,10 +59,10 @@ function initMap(lat, lng, zMax, zMin){
  */
 function loadingMap(){
     // on initialise la carte
-    initMap(questionOfTopic.location.latitude,
-            questionOfTopic.location.longitude,
-            questionOfTopic.location.zoomMax,
-            questionOfTopic.location.zoomMin);
+    initMap(questionOfTopic.map_lat,
+            questionOfTopic.map_long,
+            questionOfTopic.map_zmax,
+            questionOfTopic.map_zmin);
     // on affiche les élèments de geoJSON sur la carte
     L.geoJSON(questionOfTopic.map, {
         style: function (feature) {
@@ -104,18 +106,17 @@ function initGame() {
     qNumber = 1;
     score_j = 0;
     questionOfTopic = questionsOfTopic[qNumber];
-    $('#question').html(questionOfTopic.question);
+    console.log(questionOfTopic);
+    $('#question').html(questionOfTopic.q);
     loadingMap();
 }
 
-function setQuestionsOfTopic(id) {
-    questionsOfTopic = questions[id]['questions'];
+function setQuestionsOfTopic(q) {
+    questionsOfTopic = q;
 }
 
-function getTopic(id){
-    console.log(id);
+function loadQ(){
 
-    return questions[id].topic;
 }
 
 /**
@@ -249,18 +250,20 @@ function loadLocation(url){
 }
 
 /**
- * Charger les Questions
- * @returns {Promise}
+ *
+ * @param $id_topic
+ * @returns {boolean}
  */
-function loadQuestion(){
+function loadQuestion($id_topic){
+    let api_question = "index.php?page=api";
     return new Promise((resolve, reject) => {
-        $.getJSON(api_question)
+        $.post(api_question, {q: 'questions', id: $id_topic})
         .done(function (data) {
             questions = data;
             resolve(data);
         })
         .fail(function () {
-            reject(Error('Impossible d\'ouvrir le fichier ' + url));
+            reject(Error('Impossible d\'ouvrir le fichier ' + api_question));
         })
     });
 }

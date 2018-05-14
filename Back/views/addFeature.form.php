@@ -22,7 +22,7 @@ $f_scripts = [
 
 include_once __DIR__.'/header.php';
 
-$questions = getQuestions();
+$questions = getQuestionsFormate();
 // En cas d'erreur de saisie
 ?>
 
@@ -31,7 +31,6 @@ $questions = getQuestions();
         <h2 class="text-center">Ajouter Feature</h2>
         <?php
             if ( !empty( isset($message) ) ) echo "<p>$message</p>";//affichage d'erreurs en cas d'erreur
-            debug_front($questions);
         ?>
         <script src="JKS.js"></script>
 

@@ -12,6 +12,8 @@ $styles = [
 ];
 
 $h_scripts = [
+        './src/jquery/dist/jquery.min.js',
+        './src/js/addQ.form.js',
 ];
 
 $f_scripts = [
@@ -74,19 +76,7 @@ $max = (!empty( isset( $_GET['max'] ) ) && gettype((int) $_GET['max']) === "inte
             <h3>Affichage de la carte : </h3>
             <div class="form-group">
                 <div id="Amapid" style="height:380px;"></div>
-                                <script type="text/javascript" src="../Back/src/js/addQ.form.js"></script>
-                <script type="text/javascript">
-                    function onMapRClick(e) {
-                        document.getElementById("latitudeR").value=e.latlng.lat;
-                        document.getElementById("longitudeR").value=e.latlng.lng;
-                    }                       
-                    myRmap.on('click', onMapRClick);
-                    function onMapAClick(e) {
-                        document.getElementById("latitudeMap").value=e.latlng.lat;
-                        document.getElementById("longitudeMap").value=e.latlng.lng;
-                    }                       
-                    myAmap.on('click', onMapAClick);
-                </script>
+
 
                 <label for="longitudeMap">Longitude</label>
                 <input type="number" class="form-control" step="any" min="-180" max="180" id="longitudeMap" name="longitudeMap" placeholder="1.234" value="<?php echo $longM; ?>" readonly>

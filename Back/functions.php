@@ -256,6 +256,12 @@ function getTopic($id) {
     }
 }
 
+/**
+ * Permet de rentré des coordonnée pour tous les points sur la carte
+ * @param $lat
+ * @param $long
+ * @return bool|string
+ */
 function createCoordinate($lat, $long) {
     $db = (new Database())->getDB();
     $stmt = $db->prepare("INSERT INTO COORDINATES(latitude, longitude) VALUES (:LATITUDE, :LONGITUDE)");
@@ -270,6 +276,13 @@ function createCoordinate($lat, $long) {
     }
 }
 
+/**
+ * Permet de crée une réponse (Point sur la carte)
+ * @param $marginError
+ * @param $latitude
+ * @param $longitude
+ * @return array|bool|string
+ */
 function createResponse($marginError, $latitude, $longitude) {
     $db = (new Database())->getDB();
     $stmt = $db->prepare("INSERT INTO RESPONSES(coordinate_id, marginError) VALUES (:ID, :MARGE)");
@@ -291,6 +304,14 @@ function createResponse($marginError, $latitude, $longitude) {
     }
 }
 
+/**
+ * Permet rentrer les coordonnées de la carte
+ * @param $max
+ * @param $min
+ * @param $latitude
+ * @param $longitude
+ * @return array|bool|string
+ */
 function createMap($max, $min, $latitude, $longitude) {
     $db = (new Database())->getDB();
     $stmt = $db->prepare("INSERT INTO MAPS(coordinate_id, zoommax, zoommin) VALUES (:ID, :MAX, :MIN)");
@@ -313,6 +334,19 @@ function createMap($max, $min, $latitude, $longitude) {
     }
 }
 
+/**
+ * Permet de crée une question pour un topics donnée
+ * @param $IDTopic
+ * @param $title
+ * @param $longitudeMap
+ * @param $latitudeMap
+ * @param $zoomMax
+ * @param $zoomMin
+ * @param $longitudeResponse
+ * @param $latitudeResponse
+ * @param $marginError
+ * @return array|bool|string
+ */
 function createQuestion($IDTopic, $title, $longitudeMap,
  $latitudeMap, $zoomMax, $zoomMin, $longitudeResponse, $latitudeResponse, $marginError) {
     $db = (new Database())->getDB();
@@ -344,6 +378,12 @@ function createQuestion($IDTopic, $title, $longitudeMap,
     }
 }
 
+/**
+ * Permet de crée une zone cliquable sur la carte
+ * @param $id_quest
+ * @param $ptsArray
+ * @return array|bool|string
+ */
 function createFeature($id_quest,$ptsArray){
     $db = (new Database())->getDB();
     $i=0;
@@ -374,6 +414,10 @@ function createFeature($id_quest,$ptsArray){
 return $db->lastInsertId();
 }
 
+/**
+ * Retourne toutes les questions de la bdd
+ * @return array|bool
+ */
 function getQuestions() {
     $db = (new Database())->getDB();
     try {
@@ -384,6 +428,10 @@ function getQuestions() {
     }
 }
 
+/**
+ * Retourne les questions dans un certain format
+ * @return array|bool
+ */
 function getQuestionsFormate()//retourne les questions sous format : nom_topic - Titre_Question,je vais l'utiliser en Ajouter_Feature
 {
     $db = (new Database())->getDB();
@@ -394,6 +442,12 @@ function getQuestionsFormate()//retourne les questions sous format : nom_topic -
         return False;
     }
 }
+
+/**
+ * retourne les question d'un topic
+ * @param $id_topic
+ * @return array|bool
+ */
 function getQuestionsTopic($id_topic) {
     $db = (new Database())->getDB();
     try {
@@ -418,12 +472,17 @@ function getQuestionsTopic($id_topic) {
     }
 }
 
+/**
+ * Retourne le nombre de question d'un topic
+ * @param $id_topic
+ * @return mixed
+ */
 function checkMaxQ($id_topic){
     $db = (new Database())->getDB();
     $stmt = $db->prepare("SELECT count(*) as count FROM QUESTIONS WHERE TOPIC_ID=:ID");
     try {
         $stmt->execute([
-            "ID"=>$id_topic
+            "ID" => $id_topic
         ]);
         return $stmt->fetch();
     } catch(PDOException $e) {
@@ -443,14 +502,33 @@ function getTopics_json() {
         echo json_encode($q, JSON_PRETTY_PRINT);
 }
 
-
+/**
+ * Retourne les question sous forme de JSON
+ * @param $id_topic
+ * @return null
+ */
 function getQuestions_Json($id_topic) {
     if ( empty( isset( $id_topic ) ) ) return null;
-    $q = getQuestionsTopic($id_topic);
-    if($q === false)
+    $questions = getQuestionsTopic($id_topic);
+    if($questions === false) {
         echo "Une erreur est survenue dans la requête";
-    else
+    } else {
+        $q = [];
+        foreach ( $questions as $x ) {
+            $x['map'] = [];
+            $x['map']['type'] = "FeatureCollection";
+            $x['map']['features'] = [];
+            $x['map']['features']['type'] = "Feature";
+            $x['map']['features']['geometry'] = [];
+            $x['map']['features']['geometry']['type'] = "Polygon";
+            $x['map']['features']['geometry']['coordinates'] = [];
+            foreach (getFeatureQ($x['ID']) as $feature){
+                array_push($x['map']['features']['geometry']['coordinates'], [$feature['LONGITUDE'], $feature['LATITUDE']]);
+            }
+            array_push($q, $x);
+        }
         echo json_encode($q, JSON_PRETTY_PRINT);
+    }
 }
 
 /**
@@ -486,6 +564,10 @@ function alert($messages) {
     }
 }
 
+/**
+ * Permet de debuggé proprement les variables
+ * @param $var
+ */
 function debug_front($var) {
     echo '<pre>';
     print_r($var);
@@ -508,9 +590,31 @@ function getScores($userId) {
     }
 }
 
+/**
+ * Permet de déterminer si l'utilisateur est un administrateur
+ * @param $role
+ * @return bool
+ */
 function is_admin($role) {
     if(strcasecmp($role,"admin")==0)
         return True;
     else return False;
 }
 
+/**
+ * Permet de récupérer les features d'une carte
+ * @param $id_question
+ * @return array|bool
+ */
+function getFeatureQ($id_question) {
+    $db = (new Database())->getDB();
+    try {
+        $stmt = $db->prepare("SELECT * FROM FEATURES as f JOIN COORDINATES as c ON f.COORDINATE_ID = c.ID_COORDINATE WHERE ID_QUESTION = :ID");
+        $stmt->execute([
+            "ID" => $id_question
+        ]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e){
+        return False;
+    }
+}

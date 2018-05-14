@@ -17,13 +17,16 @@ $(document).ready(function(){
     topics.on('mousedown', function(event) {
         // On récupère l'id du sujet (bubbling) (vanilla)
         const id = event.target.getAttribute("data-id");
-        // on affiche le titre du sujte
-        $('#topic').html(getTopic(id));
-        // on recupère les
-        setQuestionsOfTopic(id);
-        topics.toggle();
-        $('#questions').toggle();
-        initGame();
+        // On affiche le titre du sujte
+        $('#topic').html(event.target.getAttribute("data-name"));
+        // On récupère les question du topic et on charge le jeu
+        loadQuestion(id).then(function(q){
+            setQuestionsOfTopic(q);
+            topics.toggle();
+            $('#questions').toggle();
+            //initGame();
+        });
+
     });
 
     $("#next").on('mousedown', function () {
@@ -46,7 +49,8 @@ $(document).ready(function(){
             topics.append(
                 "<button type='button' class='btn btn-primary btn-block' data-id='"+
                 q[i].id_topic
-                +"'>"+
+                +"' data-name='" +
+                q[i].name+"'>"+
                 q[i].name
                 +"</button>"
             );

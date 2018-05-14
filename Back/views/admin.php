@@ -61,15 +61,14 @@ $questions = getQuestions();
                                 ID_QUESTION,TITLE,TOPIC_ID,RESPONSE_ID,MAP_ID
                                 <th>ID</th>
                                 <th>Désignation</th>
-                                <th>Longitude (réponse)</th>
-                                <th>Latitude (réponse)</th>
                                 <th>Marge d'erreur</th>
                             </tr>
                             </thead>
                             <tbody>
                             <?php
-                            foreach ($sujets as $sujet) {
-                                echo "<tr><td>".$sujet['id_topic']."</td><td>".$sujet['name']."</td><td></td></tr>";
+                            foreach ($questions as $question) {
+                                debug_front($question);
+                                echo "<tr><td>".$question['ID_QUESTION']."</td><td>".$question['TITLE']."</td><td></td></tr>";
                             }
                             ?>
                             </tbody>

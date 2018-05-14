@@ -16,6 +16,7 @@ $h_scripts = [
 ];
 
 $f_scripts = [
+    './src/jquery/dist/jquery.min.js',
     './src/js/functions.js',
     './src/js/main_2.js',
 ];
