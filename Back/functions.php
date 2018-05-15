@@ -518,9 +518,9 @@ function getQuestions_Json($id_topic) {
             $coordinates = [];
             $f = getFeatureQ($x['ID']);
             foreach ($f as $feature){
-                array_push($coordinates, [ $feature['LONGITUDE'], $feature['LATITUDE'],  ]);
+                array_push($coordinates, [ $feature['LATITUDE'], $feature['LONGITUDE']  ]);
             }
-            array_push($coordinates, [$f[0]['LONGITUDE'], $f[0]['LATITUDE']]);
+            //array_push($coordinates, [$f[0]['LONGITUDE'], $f[0]['LATITUDE']]);
             $geometry= [
                 "type" => "Polygon",
                 "coordinates" => $coordinates

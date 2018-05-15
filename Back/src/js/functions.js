@@ -115,15 +115,16 @@ function loadingMap(){
             questionOfTopic.map_zmax,
             questionOfTopic.map_zmin);
 
-    questionOfTopic.map.features[0].geometry.coordinates = [ questionOfTopic.map.features[0].geometry.coordinates ];
-    console.warn(questionOfTopic.map.features);
+    //questionOfTopic.map.features[0].geometry.coordinates = [ questionOfTopic.map.features[0].geometry.coordinates ];
+    //console.warn();
     // on affiche les élèments de geoJSON sur la carte
     // questionOfTopic.map
-    L.geoJSON(d.map, {
+    console.log(questionOfTopic.map.features[0].geometry.coordinates);
+    let p = L.polygon(questionOfTopic.map.features[0].geometry.coordinates, {
         style: function (feature) {
             return feature.properties && feature.properties.style;
         },
-        onEachFeature: onEachFeature,
+        //onEachFeature: onEachFeature,
         pointToLayer: function (feature, latlng) {
             return L.circleMarker(latlng, {
                 radius: 8,
@@ -135,6 +136,10 @@ function loadingMap(){
             });
         }
     }).addTo(map);
+    p.on('mousedown', function(evt){
+        // TODO: Driss modifie la fonction correction
+    })
+
 }
 
 /**
@@ -257,7 +262,7 @@ function score(marginLat, marginLng, marginError) {
     }
 }
 
-function onEachFeature(feature, layer) {
+function onEachFeature(layer) {
     /*let popupContent = "<p>I started out as a GeoJSON " +
         feature.geometry.type + ", but now I'm a Leaflet vector!</p>";
 
@@ -267,7 +272,8 @@ function onEachFeature(feature, layer) {
 
     layer.bindPopup(popupContent);*/
     layer.on('mousedown', function(evt){
-        correction(feature, evt);
+        //correction(feature, evt);
+        console.log("hello");
     });
 }
 
