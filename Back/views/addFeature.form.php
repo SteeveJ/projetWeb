@@ -15,9 +15,11 @@ $styles = [
 ];
 
 $h_scripts = [
+    './src/jquery/dist/jquery.min.js',
 ];
 
 $f_scripts = [
+    './src/js/addF.form.js',
 ];
 
 include_once __DIR__.'/header.php';
@@ -32,7 +34,7 @@ $questions = getQuestionsFormate();
         <?php
             if ( !empty( isset($message) ) ) echo "<p>$message</p>";//affichage d'erreurs en cas d'erreur
         ?>
-        <script src="JKS.js"></script>
+
 
         <form action="?page=form&req=addFeature" method="POST">
 
@@ -56,29 +58,7 @@ $questions = getQuestionsFormate();
                 <div class="form-group">
                     <input type="hidden" id="pointsV" name="pointsV">
                 </div>
-            <script>
-            var mymap = L.map('mapid').setView([51.505, -0.09], 13);
-            L.tileLayer('http://{s}.tile.cloudmade.com/e7b61e61295a44a5b319ca0bd3150890/997/256/{z}/{x}/{y}.png', {
-    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery Â© <a href="http://cloudmade.com">CloudMade</a>',
-    maxZoom: 18
-}).addTo(mymap);
-var popup = L.popup();
-var points=[];
-function onMapClick(e) {
 
-    L.marker(e.latlng).addTo(mymap);
-    
-points.push(e.latlng);
-document.getElementById("pointsV").value=points;
-var polygon = L.polygon(points).addTo(mymap);
-    polygon.color = "red";
-    polygon.fillColor= '#f03';
-
-}
-
-mymap.on('click', onMapClick);
-
-</script>
             <button type="submit" class="btn btn-default">Ajouter</button>
         </form>
     </div>

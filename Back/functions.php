@@ -515,16 +515,29 @@ function getQuestions_Json($id_topic) {
     } else {
         $q = [];
         foreach ( $questions as $x ) {
+            $coordinates = [];
+            $f = getFeatureQ($x['ID']);
+            foreach ($f as $feature){
+                array_push($coordinates, [ $feature['LONGITUDE'], $feature['LATITUDE'],  ]);
+            }
+            array_push($coordinates, [$f[0]['LONGITUDE'], $f[0]['LATITUDE']]);
+            $geometry= [
+                "type" => "Polygon",
+                "coordinates" => $coordinates
+            ];
             $x['map'] = [];
             $x['map']['type'] = "FeatureCollection";
-            $x['map']['features'] = [];
-            $x['map']['features']['type'] = "Feature";
-            $x['map']['features']['geometry'] = [];
-            $x['map']['features']['geometry']['type'] = "Polygon";
-            $x['map']['features']['geometry']['coordinates'] = [];
+            $x['map']['features'] = [
+                array( "type" => "Feature" ,"properties" => ["name" => "foo"] , "geometry" => $geometry)
+            ];
+            //debug_front($x);
+            //$x['map']['features']['type'] = "Feature";
+            //$x['map']['features']['geometry'] = [];
+            //$x['map']['features']['geometry']['type'] = "Polygon";
+            /*$x['map']['features']['geometry']['coordinates'] = [];
             foreach (getFeatureQ($x['ID']) as $feature){
-                array_push($x['map']['features']['geometry']['coordinates'], [$feature['LONGITUDE'], $feature['LATITUDE']]);
-            }
+                array_push($x['map']['features']['geometry']['coordinates'], [ $feature['LATITUDE'], $feature['LONGITUDE'], ]);
+            }*/
             array_push($q, $x);
         }
         echo json_encode($q, JSON_PRETTY_PRINT);

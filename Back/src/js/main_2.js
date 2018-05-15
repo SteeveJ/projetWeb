@@ -24,7 +24,7 @@ $(document).ready(function(){
             setQuestionsOfTopic(q);
             topics.toggle();
             $('#questions').toggle();
-            //initGame();
+            initGame();
         });
 
     });

@@ -1,16 +1,13 @@
 // steaTODO: DRISS - verifier si les valeurs des champs son correct et affiche une erreur en rouge
-let myRmap = L.map('Rmapid').setView([51.505, -0.09], 13);
+let myRmap = new L.Map('Rmapid');
+myRmap.setView([51.505, -0.09], 13);
 
-L.tileLayer('http://{s}.tile.cloudmade.com/e7b61e61295a44a5b319ca0bd3150890/997/256/{z}/{x}/{y}.png', {
+L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
     attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
-    maxZoom: 18
+    maxZoom: 18,
+    id: 'mapbox.light',
+    accessToken: 'pk.eyJ1Ijoic2t5cm8iLCJhIjoiY2poNmV6ejNvMTlneDJxbGYzeTdya2JucyJ9.qyocW9FTx8QmAv3p4HBXaA'
 }).addTo(myRmap);
-
-let myAmap = L.map('Amapid').setView([51.505, -0.09], 13);
-L.tileLayer('http://{s}.tile.cloudmade.com/e7b61e61295a44a5b319ca0bd3150890/997/256/{z}/{x}/{y}.png', {
-    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
-    maxZoom: 18
-}).addTo(myAmap);
 
 function onMapRClick(e) {
     document.getElementById("latitudeR").value=e.latlng.lat;
@@ -18,8 +15,21 @@ function onMapRClick(e) {
 }
 myRmap.on('click', onMapRClick);
 
+
+let myAmap = new L.Map('Amapid');
+myAmap.setView([51.505, -0.09], 13);
+
+L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
+    maxZoom: 18,
+    id: 'mapbox.light',
+    accessToken: 'pk.eyJ1Ijoic2t5cm8iLCJhIjoiY2poNmV6ejNvMTlneDJxbGYzeTdya2JucyJ9.qyocW9FTx8QmAv3p4HBXaA'
+}).addTo(myAmap);
+
 function onMapAClick(e) {
     document.getElementById("latitudeMap").value=e.latlng.lat;
     document.getElementById("longitudeMap").value=e.latlng.lng;
 }
 myAmap.on('click', onMapAClick);
+
+

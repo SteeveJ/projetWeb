@@ -1,5 +1,57 @@
 "use strict";
 
+let d =
+    {
+        "ID": 1,
+        "q": "Ou ce trouve la plage de Riflet ?",
+        "resp_lat": 16.334666761112235,
+        "resp_long": -61.78309888496681,
+        "resp_marginerror": 0.034,
+        "map_zmax": 12,
+        "map_zmin": 10,
+        "map_lat": 16.31933949748773,
+        "map_long": -61.79050686039952,
+        "map": {
+            "type": "FeatureCollection",
+            "features": [
+                {
+                    "type": "Feature",
+                    "properties": {
+                        "name": "foo"
+                    },
+                    "geometry": {
+                        "type": "Polygon",
+                        "coordinates": [
+                            [
+                                [
+                                    16.376652,
+                                    -61.757364
+                                ],
+                                [
+                                    16.344369,
+                                    -61.707926
+                                ],
+                                [
+                                    16.241554,
+                                    -61.811609
+                                ],
+                                [
+                                    16.271217,
+                                    -61.847315
+                                ],
+                                [
+                                    16.376652,
+                                    -61.757364
+                                ]
+                            ]
+                        ]
+                    }
+                }
+            ]
+        }
+    };
+
+
 /**
  *  Variables
  */
@@ -34,7 +86,6 @@ function initMap(lat, lng, zMax, zMin){
     // On initialise une instance de leaflet
     map = new L.Map('map');
 
-    console.log(lat, lng, zMax, zMin);
     // On charge les coordonnées de base de la carte
     map.setView([lat, lng], zMin);
 
@@ -63,8 +114,12 @@ function loadingMap(){
             questionOfTopic.map_long,
             questionOfTopic.map_zmax,
             questionOfTopic.map_zmin);
+
+    questionOfTopic.map.features[0].geometry.coordinates = [ questionOfTopic.map.features[0].geometry.coordinates ];
+    console.warn(questionOfTopic.map.features);
     // on affiche les élèments de geoJSON sur la carte
-    L.geoJSON(questionOfTopic.map, {
+    // questionOfTopic.map
+    L.geoJSON(d.map, {
         style: function (feature) {
             return feature.properties && feature.properties.style;
         },
@@ -103,10 +158,10 @@ function nextQuestion(){
  * Permet d'instancier une partie
  */
 function initGame() {
-    qNumber = 1;
+    qNumber = 0;
     score_j = 0;
     questionOfTopic = questionsOfTopic[qNumber];
-    console.log(questionOfTopic);
+    console.log(questionsOfTopic);
     $('#question').html(questionOfTopic.q);
     loadingMap();
 }

@@ -13,10 +13,10 @@ $styles = [
 
 $h_scripts = [
         './src/jquery/dist/jquery.min.js',
-        './src/js/addQ.form.js',
 ];
 
 $f_scripts = [
+    './src/js/addQ.form.js',
 ];
 
 include_once __DIR__.'/header.php';
@@ -63,6 +63,7 @@ $max = (!empty( isset( $_GET['max'] ) ) && gettype((int) $_GET['max']) === "inte
             <h3>Réponse : </h3>
             <div class="form-group">                
                 <div id="Rmapid" style="height:380px;"></div>
+
                 <label for="latitudeR">Latitude : </label>
                 <input type="number" class="form-control" step="any" min="-180" max="180" id="latitudeR" name="latitudeR" placeholder="1.234" value="<?php echo $latR; ?>" readonly>
                 <label for="longitudeR">Longitude</label>
