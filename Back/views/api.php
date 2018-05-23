@@ -18,6 +18,15 @@ if( !empty( isset( $_POST['q'] ) ) ) {
             if ( empty( isset( $_POST['id'] ) ) )  { unavailable(); break; }
             getQuestions_Json($_POST['id']);
             break;
+        case 'score':
+            if( empty( isset( $_POST['idTopic'] ) )
+                && empty( isset( $_POST['idUser'] ) )
+                && empty( isset( $_POST['score'] ) ) ) {
+                unavailable(); break;
+            }
+            $tab['resultat'] = addScore($_POST['idTopic'], $_POST['idUser'], $_POST['score']);
+            echo json_encode($tab);
+            break;
         default:
             include __DIR__.'/404.php';
     }

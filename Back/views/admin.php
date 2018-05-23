@@ -46,6 +46,7 @@ $questions = getQuestions();
                             </thead>
                             <tbody>
                                 <?php
+
                                     foreach ($sujets as $sujet) {
                                         echo "<tr><td>".$sujet['id_topic']."</td><td>".$sujet['name']."</td><td></td></tr>";
                                     }
@@ -58,7 +59,6 @@ $questions = getQuestions();
                         <table class="table table-responsive">
                             <thead>
                             <tr>
-                                ID_QUESTION,TITLE,TOPIC_ID,RESPONSE_ID,MAP_ID
                                 <th>ID</th>
                                 <th>Désignation</th>
                                 <th>Marge d'erreur</th>
@@ -67,7 +67,7 @@ $questions = getQuestions();
                             <tbody>
                             <?php
                             foreach ($questions as $question) {
-                                debug_front($question);
+
                                 echo "<tr><td>".$question['ID_QUESTION']."</td><td>".$question['TITLE']."</td><td></td></tr>";
                             }
                             ?>

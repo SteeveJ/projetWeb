@@ -1,8 +1,8 @@
 <?php
 
-if ( !is_connected() ) {
-    redirect('?page=home');
-}
+// if ( !is_connected() ) {
+//     redirect('?page=home');
+// }
 
 $title_website = 'Quizz';
 
@@ -31,7 +31,6 @@ include_once __DIR__.'/header.php';
             <h2 id="topic"></h2>
             <p>Score : <span class="score"></span></p>
             <p id="question"></p>
-            <div id="map"></div>
         </div>
         <div id="response">
             <h2 id="title_response"></h2>
@@ -39,13 +38,18 @@ include_once __DIR__.'/header.php';
             <p id="content_response"></p>
             <div id="images"></div>
             <div id="buttons">
-                <button class='btn btn-primary' id='next'>Suivant</button>
+                    <button class='btn btn-primary' id='next'>Suivant</button>
             </div>
         </div>
+        <div id="map"></div>
     </div>
     <div id="footer">
         &copy; copyright Jerent Steeve 2018
     </div>
+    <script>
+        let user_id = <?php echo $_SESSION['user']['id_user'];?>;
+
+    </script>
 
 <?php
 

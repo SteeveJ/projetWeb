@@ -103,7 +103,6 @@ function check_userData($firstName, $lastName, $password, $pseudo, $role, $activ
         // compris entre 8 et 16 caractère, Au minimun 1 maj, 1 charactère spécial, un chiffre
         if ( strlen( $password ) < 8 || strlen( $password ) > 16 )
             array_push($errors, "Your password contains less than 8 char or more than 16 char.");
-        //debug_front(preg_match(mb_convert_encoding('/[#$%^&*()+=@\-\[\]\';,.\/{}|":<>?~\\\\]/', 'UTF-8'),$password));
         if (preg_match(mb_convert_encoding('/[A-Z]/', 'UTF-8'),$password) !== 1 )
             array_push($errors,"Your Password must contain at least 1 uppercase!");
         if( preg_match(mb_convert_encoding('/[#$%^&*()+=@\-\[\]\';,.\/{}|":<>?~\\\\]/', 'UTF-8'), $password) !== 1 )
@@ -238,6 +237,21 @@ function getTopics() {
         return False;
     }
 }
+
+/**
+ * Permet d'afficher tous les topics existant, si elle on moins de 7 questions
+ * @return array|bool
+ */
+function getTopics2() {
+    $db = (new Database())->getDB();
+    try {
+        $stmt = $db->query("SELECT * FROM TOPICS T WHERE ID_TOPIC in (SELECT DISTINCT ID_TOPIC FROM TOPICS T LEFT JOIN QUESTIONS Q ON Q.TOPIC_ID = T.ID_TOPIC GROUP BY T.ID_TOPIC HAVING count(T.ID_TOPIC) < 7)");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e){
+        return False;
+    }
+}
+
 
 /**
  * Permet d'afficher un topic spécifiques
@@ -429,6 +443,22 @@ function getQuestions() {
 }
 
 /**
+ * Retourne toutes les questions de la bdd qui ne sont pas dans features
+ * @return array|bool
+ */
+function getQuestions2() {
+    $db = (new Database())->getDB();
+    try {
+        $stmt = $db->query("SELECT * FROM QUESTIONS Q WHERE Q.ID_QUESTION NOT IN (SELECT F.ID_QUESTION FROM FEATURES F)");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e){
+        return False;
+    }
+}
+
+
+
+/**
  * Retourne les questions dans un certain format
  * @return array|bool
  */
@@ -436,7 +466,7 @@ function getQuestionsFormate()//retourne les questions sous format : nom_topic -
 {
     $db = (new Database())->getDB();
     try {
-        $stmt = $db->query("Select ID_QUESTION,Concat(name,' - ',Title) as Nom_Formate from questions q join topics t where q.TOPIC_ID=t.ID_TOPIC");
+        $stmt = $db->query("Select ID_QUESTION,Concat(name,' - ',Title) as Nom_Formate from questions q join topics t on q.TOPIC_ID=t.ID_TOPIC WHERE q.ID_QUESTION NOT IN (SELECT F.ID_QUESTION FROM FEATURES F)");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e){
         return False;
@@ -530,14 +560,7 @@ function getQuestions_Json($id_topic) {
             $x['map']['features'] = [
                 array( "type" => "Feature" ,"properties" => ["name" => "foo"] , "geometry" => $geometry)
             ];
-            //debug_front($x);
-            //$x['map']['features']['type'] = "Feature";
-            //$x['map']['features']['geometry'] = [];
-            //$x['map']['features']['geometry']['type'] = "Polygon";
-            /*$x['map']['features']['geometry']['coordinates'] = [];
-            foreach (getFeatureQ($x['ID']) as $feature){
-                array_push($x['map']['features']['geometry']['coordinates'], [ $feature['LATITUDE'], $feature['LONGITUDE'], ]);
-            }*/
+
             array_push($q, $x);
         }
         echo json_encode($q, JSON_PRETTY_PRINT);
@@ -567,6 +590,10 @@ function redirect($url) {
     header( "Location: $url" );
 }
 
+/**
+ * Formate les messages d'erreurs
+ * @param $messages
+ */
 function alert($messages) {
     if ( !empty( isset( $messages) ) ) {
         echo "<div class='alert alert-danger'>";
@@ -593,7 +620,7 @@ function debug_front($var) {
 function getScores($userId) {
     $db = (new Database())->getDB();
     try {
-        $stmt = $db->prepare("SELECT TOPIC_ID,MAX(SCORE) as scoreMax FROM SCORES WHERE USER_ID = :ID GROUP BY TOPIC_ID");
+        $stmt = $db->prepare("SELECT TOPIC_ID,SCORE as scoreMax FROM SCORES WHERE USER_ID = :ID");
         $stmt->execute([
             "ID" => $userId
         ]);
@@ -627,6 +654,22 @@ function getFeatureQ($id_question) {
             "ID" => $id_question
         ]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e){
+        return False;
+    }
+}
+
+
+function addScore($user, $topic, $score) {
+    $db = (new Database())->getDB();
+    $stmt = $db->prepare("INSERT INTO SCORES(TOPIC_ID, USER_ID, SCORE) VALUES (:IDTOPIC, :IDUSER, :SCORE)");
+    try {
+        $stmt->execute([
+            'IDTOPIC' => $topic,
+            'IDUSER' => $user,
+            'SCORE'   => $score
+        ]);
+        return $db->lastInsertId();
     } catch (PDOException $e){
         return False;
     }

@@ -41,9 +41,6 @@ if( !empty( isset( $_GET['signup'] ) ) && $_GET['signup'] === '1') {
             array_push($messages_signup, "Les mots de passes ne sont pas similaire.");
         } else {
             $res = createUser($_POST['firstname-signup'], $_POST['lastname-signup'], $_POST['username-signup'], $_POST['password-signup']);
-            debug_front($res);
-            debug_front(($res === False || ($res !== True || $res !== False)));
-
             if ( $res === False || ($res !== True || $res !== False) ) {
                 $messages_signup = $res;
             }

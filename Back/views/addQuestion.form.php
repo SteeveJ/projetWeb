@@ -21,7 +21,7 @@ $f_scripts = [
 
 include_once __DIR__.'/header.php';
 
-$topics = getTopics();
+$topics = getTopics2();
 // En cas d'erreur de saisie
 $id_t = (!empty( isset( $_GET['id_t'] ) ) && gettype((int) $_GET['id_t']) === "integer") ? (int) $_GET['id_t'] : null;
 $q = (!empty( isset( $_GET['q'] ) ) ) ? $_GET['q'] : null;
@@ -71,7 +71,7 @@ $max = (!empty( isset( $_GET['max'] ) ) && gettype((int) $_GET['max']) === "inte
             </div>
             <div class="form-group">
                 <label for="margeR">Un marge d'erreur (entre 0 et 1): </label>
-                <input type="number" class="form-control" step="any" min="0" max="1" id="margeR" name="margeR" placeholder="0.034" value="<?php echo $margeR; ?>">
+                <input type="number" class="form-control" step="any" min="0" max="1" id="margeR" name="margeR" placeholder="0.034" value="<?php echo ($margeR == null) ? 0.034 : $margeR; ?>">
             </div>
 
             <h3>Affichage de la carte : </h3>
@@ -88,11 +88,11 @@ $max = (!empty( isset( $_GET['max'] ) ) && gettype((int) $_GET['max']) === "inte
             </div>
             <div class="form-group">
                 <label for="zoomMinMap">Zoom minimum (entre 10 et 15): </label>
-                <input type="number" class="form-control" step="any" min="10" max="15" id="zoomMinMap" name="zoomMinMap" placeholder="10" value="<?php echo $min; ?>">
+                <input type="number" class="form-control" step="any" min="10" max="15" id="zoomMinMap" name="zoomMinMap" placeholder="10" value="<?php echo ($min == null) ? 10 : $min; ?>">
             </div>
             <div class="form-group">
                 <label for="zoomMaxMap">Zoom maximum (entre 10 et 15): </label>
-                <input type="number" class="form-control" step="any" min="10" max="15" id="zoomMaxMap" name="zoomMaxMap" placeholder="10" value="<?php echo $max; ?>">
+                <input type="number" class="form-control" step="any" min="10" max="15" id="zoomMaxMap" name="zoomMaxMap" placeholder="10" value="<?php echo ($max == null) ? 10 : $max; ?>">
             </div>
 
 
@@ -106,3 +106,4 @@ $max = (!empty( isset( $_GET['max'] ) ) && gettype((int) $_GET['max']) === "inte
 
 include_once __DIR__.'/footer.php';
 ?>
+

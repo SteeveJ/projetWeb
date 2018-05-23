@@ -36,7 +36,7 @@ $myScores = getScores($user['id_user']);
                 <div class="col-md-6">
                     <h3 class="titre">Meilleurs scores</h3>
                     <?php
-                        if(!empty( isset( $myScores ) ) && $myScores !== False && sizeof($myScores) > 1 ) {
+                        if(!empty( isset( $myScores ) ) && $myScores !== False ) {
                             echo "<table class='table table-condensed'><tbody><tr><th>Thème</th><th>Score</th></tr>";
                             foreach ($myScores as $score)
                                 echo "<tr><td>".getTopic($score['TOPIC_ID'])['name']."</td><td>".$score['scoreMax']."</td></tr>";
