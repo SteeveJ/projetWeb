@@ -43,12 +43,9 @@ $max = (!empty( isset( $_GET['max'] ) ) && gettype((int) $_GET['max']) === "inte
                 <label for="topic">Choisir un sujet</label>
                 <select class="form-control" name="topic" id="topic">
                     <?php
-
+                        debug_front("driss is kewl");
                         foreach ($topics as $t){
-                            if ($id_q != null && $t['id_topic'] == $id_t)
-                                echo '<option value="'.$t['id_topic'].'" selected>'.$t['name'].'</option>';
-                            else
-                                echo '<option value="'.$t['id_topic'].'">'.$t['name'].'</option>';
+                                echo '<option value="'.$t['ID_TOPIC'].'" selected>'.$t['NAME'].'</option>';
                         }
                     ?>
                 </select>
