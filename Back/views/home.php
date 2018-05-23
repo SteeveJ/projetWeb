@@ -96,7 +96,7 @@ include_once __DIR__.'/header.php';
         </div>
     </section>
     <div id="footer">
-        &copy; copyright Jerent Steeve 2018
+        &copy; copyright Driss Bouzaid - Jerent Steeve 2018
     </div>
 
     <!-- Modal inscription -->

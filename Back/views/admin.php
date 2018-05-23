@@ -19,7 +19,7 @@ $f_scripts = [
 include_once __DIR__.'/header.php';
 
 $sujets = getTopics();
-$questions = getQuestions();
+$questions = getQuestionsFormate();
 
 ?>
 
@@ -49,11 +49,12 @@ $questions = getQuestions();
 
                                     foreach ($sujets as $sujet) {
                                         $line = "<tr><td>".$sujet['id_topic']."</td><td>".$sujet['name']."</td><td>";
-                                        if (topicIsEnabled($sujet['id_topic']))
-                                            "<a href='?page=api&enabled=1&idTopic=".$sujet['id_topic']."'>Activer</a>";
+                                        if (topicIsEnabled($sujet['id_topic']) == false)
+                                            $line .= "<a href='?page=enabled&enabled=1&idTopic=".$sujet['id_topic']."'>Activer</a>";
                                         else
-                                            "<a href='?page=api&enabled=0&idTopic=".$sujet['id_topic']."'>Désactiver</a>";
+                                            $line .= "<a href='?page=enabled&enabled=0&idTopic=".$sujet['id_topic']."'>Désactiver</a>";
                                         $line .= "</td></tr>";
+                                        echo $line;
                                     }
                                 ?>
                             </tbody>
@@ -73,7 +74,7 @@ $questions = getQuestions();
                             <?php
                             foreach ($questions as $question) {
 
-                                echo "<tr><td>".$question['ID_QUESTION']."</td><td>".$question['TITLE']."</td><td></td></tr>";
+                                echo "<tr><td>".$question['ID_QUESTION']."</td><td>".$question['Nom_Formate']."</td><td></td></tr>";
                             }
                             ?>
                             </tbody>

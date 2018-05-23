@@ -1,7 +1,7 @@
 <?php
 
-// if ( !is_connected() )
-//    redirect('?page=home');
+if ( !is_connected() )
+   redirect('?page=home');
 
 // TODO: Ajouter condition super admin
 

@@ -231,7 +231,7 @@ function createTopic($topicName) {
 function getTopics() {
     $db = (new Database())->getDB();
     try {
-        $stmt = $db->query("Select id_topic, name from TOPICS");
+        $stmt = $db->query("Select id_topic, name from TOPICS WHERE ENABLED = 1");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e){
         return False;
@@ -245,7 +245,7 @@ function getTopics() {
 function getTopics2() {
     $db = (new Database())->getDB();
     try {
-        $stmt = $db->query("SELECT * FROM TOPICS T WHERE ID_TOPIC in (SELECT DISTINCT ID_TOPIC FROM TOPICS T LEFT JOIN QUESTIONS Q ON Q.TOPIC_ID = T.ID_TOPIC GROUP BY T.ID_TOPIC HAVING count(T.ID_TOPIC) < 7)");
+        $stmt = $db->query("SELECT * FROM TOPICS T WHERE ID_TOPIC in (SELECT DISTINCT ID_TOPIC FROM TOPICS T LEFT JOIN QUESTIONS Q ON Q.TOPIC_ID = T.ID_TOPIC GROUP BY T.ID_TOPIC HAVING count(T.ID_TOPIC) < 7) AND ENABLED = 1");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e){
         return False;
@@ -260,7 +260,7 @@ function getTopics2() {
 function getTopic($id) {
     $db = (new Database())->getDB();
     try {
-        $stmt = $db->prepare("Select id_topic,name from TOPICS where id_topic=:ID");
+        $stmt = $db->prepare("Select id_topic,name from TOPICS where id_topic=:ID AND ENABLED = 1");
         $stmt->execute([
             "ID"=>$id
         ]);
@@ -678,5 +678,33 @@ function addScore($user, $topic, $score) {
 
 function topicIsEnabled($id) {
     $db = (new Database())->getDB();
-    //$stmt = $db->query("");
+    $stmt = $db->prepare("SELECT ENABLED FROM TOPICS WHERE ID_TOPIC = :ID");
+    try {
+        $stmt->execute([
+            'ID' => $id
+        ]);
+        $res = $stmt->fetch(PDO::FETCH_ASSOC);
+        if( $res['ENABLED'] == 1 )
+            return true;
+        else
+            return false;
+    } catch (PDOException $e) {
+        echo $e;
+        return false;
+    }
+}
+
+function statusTopic($id, $status=1) {
+    $db = (new Database())->getDB();
+    $stmt = $db->prepare("UPDATE TOPICS SET ENABLED = :STATUS WHERE ID_TOPIC = :ID");
+    try {
+        $stmt->execute([
+            'ID' => $id,
+            'STATUS' => $status
+        ]);
+        return true;
+    } catch (PDOException $e) {
+        echo $e;
+        return false;
+    }
 }

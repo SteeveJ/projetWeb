@@ -1,6 +1,6 @@
 <?php
 
-require __DIR__.'/functions.php';
+require_once __DIR__.'/functions.php';
 
 // On vérifie si une page est ciblée
 if( !empty( isset( $_POST['page'] ) ) )
@@ -84,6 +84,9 @@ if ( isset($page) ) {
             break;
         case 'profil':
             include __DIR__.'/views/profil.php';
+            break;
+        case 'enabled':
+            include __DIR__.'/views/enabled.php';
             break;
         default:
             include __DIR__.'/views/404.php';
