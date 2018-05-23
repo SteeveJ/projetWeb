@@ -88,6 +88,12 @@ if ( isset($page) ) {
         case 'enabled':
             include __DIR__.'/views/enabled.php';
             break;
+        case 'demo':
+            include __DIR__.'/views/demo.php';
+            break;
+        case 'signup':
+            include __DIR__.'/views/signup.php';
+            break;
         default:
             include __DIR__.'/views/404.php';
     }
