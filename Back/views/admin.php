@@ -19,7 +19,7 @@ $f_scripts = [
 include_once __DIR__.'/header.php';
 
 $sujets = getTopics();
-$questions = getQuestionsFormate();
+$questions = getQuestionsFormate2();
 
 ?>
 
@@ -73,7 +73,6 @@ $questions = getQuestionsFormate();
                             <tbody>
                             <?php
                             foreach ($questions as $question) {
-
                                 echo "<tr><td>".$question['ID_QUESTION']."</td><td>".$question['Nom_Formate']."</td><td></td></tr>";
                             }
                             ?>

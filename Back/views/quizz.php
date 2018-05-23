@@ -1,8 +1,8 @@
 <?php
 
-// if ( !is_connected() ) {
-//     redirect('?page=home');
-// }
+if ( !is_connected() ) {
+     redirect('?page=home');
+}
 
 $title_website = 'Quizz';
 

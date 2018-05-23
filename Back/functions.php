@@ -457,9 +457,23 @@ function getQuestions2() {
 }
 
 
-
 /**
  * Retourne les questions dans un certain format
+ * @return array|bool
+ */
+function getQuestionsFormate2()//retourne les questions sous format : nom_topic - Titre_Question,je vais l'utiliser en Ajouter_Feature
+{
+    $db = (new Database())->getDB();
+    try {
+        $stmt = $db->query("Select ID_QUESTION,Concat(name,' - ',Title) as Nom_Formate from questions q join topics t on q.TOPIC_ID=t.ID_TOPIC WHERE q.ID_QUESTION");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e){
+        return False;
+    }
+}
+
+/**
+ * Retourne les questions dans un certain format qui n'existe pas dans features
  * @return array|bool
  */
 function getQuestionsFormate()//retourne les questions sous format : nom_topic - Titre_Question,je vais l'utiliser en Ajouter_Feature
