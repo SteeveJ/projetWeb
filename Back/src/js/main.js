@@ -35,15 +35,12 @@ function initMap(lat, lng, zMax, zMin){
      *  On charge la carte depuis l'api mapbox qui sont des contributeurs de openstreetmap
      *  On peut reglé le zoom de la carte ici.
      */
-    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1Ijoic2t5cm8iLCJhIjoiY2pkcHpqd3Z0MHpkODJ3cXpuaDAxanFjdyJ9.Ta1TlUNAb5MZe2MJl6YAtw', {
-        maxZoom: zMax,
-        minZoom: zMin,
-        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-        '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-        'Imagery © <a href="http://mapbox.com">Mapbox</a>',
-        id: 'mapbox.light'
-    }).addTo(map);
-
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: zMax,
+    minZoom: zMin,
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+}).addTo(map);
+    
 }
 
 /**

@@ -60,11 +60,12 @@ $max = (!empty( isset( $_GET['max'] ) ) && gettype((int) $_GET['max']) === "inte
             <h3>Réponse : </h3>
             <div class="form-group">                
                 <div id="Rmapid" style="height:380px;"></div>
-
-                <label for="latitudeR">Latitude : </label>
-                <input type="number" class="form-control" step="any" min="-180" max="180" id="latitudeR" name="latitudeR" placeholder="1.234" value="<?php echo $latR; ?>" readonly>
                 <label for="longitudeR">Longitude</label>
                 <input type="number" class="form-control" step="any" min="-180" max="180" id="longitudeR" name="longitudeR" placeholder="1.234" value="<?php echo $longR; ?>" readonly>
+                
+                <label for="latitudeR">Latitude : </label>
+                <input type="number" class="form-control" step="any" min="-180" max="180" id="latitudeR" name="latitudeR" placeholder="1.234" value="<?php echo $latR; ?>" readonly>
+                
             </div>
             <div class="form-group">
                 <label for="margeR">Un marge d'erreur (entre 0 et 1): </label>
