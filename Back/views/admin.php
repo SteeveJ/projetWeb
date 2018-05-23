@@ -48,7 +48,12 @@ $questions = getQuestions();
                                 <?php
 
                                     foreach ($sujets as $sujet) {
-                                        echo "<tr><td>".$sujet['id_topic']."</td><td>".$sujet['name']."</td><td></td></tr>";
+                                        $line = "<tr><td>".$sujet['id_topic']."</td><td>".$sujet['name']."</td><td>";
+                                        if (topicIsEnabled($sujet['id_topic']))
+                                            "<a href='?page=api&enabled=1&idTopic=".$sujet['id_topic']."'>Activer</a>";
+                                        else
+                                            "<a href='?page=api&enabled=0&idTopic=".$sujet['id_topic']."'>Désactiver</a>";
+                                        $line .= "</td></tr>";
                                     }
                                 ?>
                             </tbody>
@@ -61,7 +66,7 @@ $questions = getQuestions();
                             <tr>
                                 <th>ID</th>
                                 <th>Désignation</th>
-                                <th>Marge d'erreur</th>
+                                <th>Action</th>
                             </tr>
                             </thead>
                             <tbody>

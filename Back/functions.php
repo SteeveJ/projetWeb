@@ -674,3 +674,9 @@ function addScore($user, $topic, $score) {
         return False;
     }
 }
+
+
+function topicIsEnabled($id) {
+    $db = (new Database())->getDB();
+    //$stmt = $db->query("");
+}
