@@ -24,7 +24,7 @@ if( !empty( isset( $_POST['q'] ) ) ) {
                 && empty( isset( $_POST['score'] ) ) ) {
                 unavailable(); break;
             }
-            $tab['resultat'] = addScore($_POST['idTopic'], $_POST['idUser'], $_POST['score']);
+            $tab['resultat'] = addScore( $_POST['idUser'],$_POST['idTopic'], $_POST['score']);
             echo json_encode($tab);
             break;
         default:
