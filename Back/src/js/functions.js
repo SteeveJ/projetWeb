@@ -20,7 +20,7 @@ let maxQuote = 3;
 let quote = minQuote;
 let quote_interval;
 
-let api_question = "index.php?page=api";
+let api_question = "./index.php?page=api";
 
 /**
  * FUNCTIONS
@@ -92,7 +92,7 @@ function nextQuestion(){
     // on incrémente le compteur des questions
     qNumber++;
 
-    if(qNumber === 8) {
+    if(qNumber === questionsOfTopic.length+1) {
         endGame();
     } else {
         // to efface la carte map
@@ -144,7 +144,7 @@ function getResponse(res_score) {
             break;
     }
 
-    if (qNumber == 6) {
+    if (qNumber == questionsOfTopic.length-1) {
         $('#next').css('display', 'None');
         sendScore();
     }
